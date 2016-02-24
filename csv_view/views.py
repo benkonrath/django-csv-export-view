@@ -3,17 +3,23 @@ import csv
 from django.core.exceptions import ImproperlyConfigured
 from django.http.response import HttpResponse
 from django.views.generic.base import View
+from django.views.generic.list import MultipleObjectMixin
 
 
-class CSVView(View):
-    model = None
-    queryset = None
+class CSVView(MultipleObjectMixin, View):
     fields = None
     exclude = None
     header = True
     dialect = 'excel'
     specify_separator = True  # Useful for Excel.
     filename = None
+
+    # Override some defaults.
+    paginate_by = None
+    paginator_class = None
+    page_kwarg = None
+    allow_empty = True
+    context_object_name = None
 
     http_method_names = ('get',)
 
@@ -23,22 +29,20 @@ class CSVView(View):
         if self.fields and self.exclude:
             raise ImproperlyConfigured('\'{0}\' cannot set fields and excludes.'.format(self.__class__.__name__))
 
-    def get_queryset(self):
-        """
-        Get the list of items for this view. This must be an iterable, and may be a queryset (in which qs-specific
-        behavior will be enabled).
+    def get_paginate_by(self, queryset):
+        if self.paginate_by:
+            raise ImproperlyConfigured('\'{0}\' does not support pagination.'.format(self.__class__.__name__))
+        return None
 
-        This method was taken from django.views.generic.list.MultipleObjectMixin.
-        """
-        if self.queryset is not None:
-            queryset = self.queryset
-            if hasattr(queryset, '_clone'):
-                queryset = queryset._clone()
-        elif self.model is not None:
-            queryset = self.model._default_manager.all()
-        else:
-            raise ImproperlyConfigured("'{0}' must define 'queryset' or 'model'".format(self.__class__.__name__))
-        return queryset
+    def get_allow_empty(self):
+        if not self.allow_empty:
+            raise ImproperlyConfigured('\'{0}\' does not support disabling allow_empty.'.format(self.__class__.__name__))
+        return True
+
+    def get_context_object_name(self, object_list):
+        if self.context_object_name:
+            raise ImproperlyConfigured('\'{0}\' does not support setting context_object_name.'.format(self.__class__.__name__))
+        return None
 
     def get_fields(self, queryset):
         """ Override if a dynamic fields are required. """
