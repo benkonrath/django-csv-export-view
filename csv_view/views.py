@@ -1,6 +1,6 @@
 import csv
 
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, FieldDoesNotExist
 from django.http.response import HttpResponse
 from django.views.generic.base import View
 from django.views.generic.list import MultipleObjectMixin
@@ -93,7 +93,15 @@ class CSVView(MultipleObjectMixin, View):
         """ Override if a custom value or behaviour is required for specific fields. """
         opts = model._meta
         if '__' not in field_name:
-            return unicode(opts.get_field(field_name).verbose_name).encode('utf-8', 'replace').capitalize()
+            try:
+                field = opts.get_field(field_name)
+            except FieldDoesNotExist as e:
+                if not hasattr(model, field_name):
+                    raise e
+                # field_name is most likely a property.
+                return field_name.replace('_', ' ').title()
+
+            return unicode(field.verbose_name).encode('utf-8', 'replace')
         else:
             related_field_names = field_name.split('__')
 
