@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 import csv
 
 from django.core.exceptions import ImproperlyConfigured, FieldDoesNotExist
@@ -27,21 +30,21 @@ class CSVView(MultipleObjectMixin, View):
         super(CSVView, self).__init__(**kwargs)
 
         if self.fields and self.exclude:
-            raise ImproperlyConfigured('\'{0}\' cannot set fields and excludes.'.format(self.__class__.__name__))
+            raise ImproperlyConfigured('\'{}\' cannot set fields and excludes.'.format(self.__class__.__name__))
 
     def get_paginate_by(self, queryset):
         if self.paginate_by:
-            raise ImproperlyConfigured('\'{0}\' does not support pagination.'.format(self.__class__.__name__))
+            raise ImproperlyConfigured('\'{}\' does not support pagination.'.format(self.__class__.__name__))
         return None
 
     def get_allow_empty(self):
         if not self.allow_empty:
-            raise ImproperlyConfigured('\'{0}\' does not support disabling allow_empty.'.format(self.__class__.__name__))
+            raise ImproperlyConfigured('\'{}\' does not support disabling allow_empty.'.format(self.__class__.__name__))
         return True
 
     def get_context_object_name(self, object_list):
         if self.context_object_name:
-            raise ImproperlyConfigured('\'{0}\' does not support setting context_object_name.'.format(self.__class__.__name__))
+            raise ImproperlyConfigured('\'{}\' does not support setting context_object_name.'.format(self.__class__.__name__))
         return None
 
     def get_fields(self, queryset):
@@ -76,7 +79,7 @@ class CSVView(MultipleObjectMixin, View):
                 return value.code
 
             # Choice field.
-            choices_function_name = 'get_{0}_display'.format(field_name)
+            choices_function_name = 'get_{}_display'.format(field_name)
             if hasattr(obj, choices_function_name):
                 choices_function = getattr(obj, choices_function_name)
                 if hasattr(choices_function, '__call__'):
@@ -101,19 +104,12 @@ class CSVView(MultipleObjectMixin, View):
                 # field_name is most likely a property.
                 return field_name.replace('_', ' ').title()
 
-            return unicode(field.verbose_name).encode('utf-8', 'replace')
+            return unicode(field.verbose_name).encode('utf-8', 'replace').title()
         else:
             related_field_names = field_name.split('__')
-
-            field_object, model, direct, m2m = opts.get_field_by_name(related_field_names[0])
-            if hasattr(field_object, 'rel'):
-                related_model = field_object.rel.to
-            else:
-                # field_object should be instance of RelatedObject
-                related_model = field_object.model
-
-            related_field_name = '__'.join(related_field_names[1:])
-            return self.get_field_name(related_model, related_field_name)
+            field = opts.get_field(related_field_names[0])
+            assert field.is_relation
+            return self.get_field_name(field.related_model, '__'.join(related_field_names[1:]))
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
