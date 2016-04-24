@@ -3,13 +3,15 @@ from __future__ import unicode_literals
 
 import csv
 
-from django.core.exceptions import ImproperlyConfigured, FieldDoesNotExist
+from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
 from django.http.response import HttpResponse
+from django.utils import six
+from django.utils.encoding import force_text
 from django.views.generic.base import View
 from django.views.generic.list import MultipleObjectMixin
 
 
-class CSVView(MultipleObjectMixin, View):
+class CSVExportView(MultipleObjectMixin, View):
     fields = None
     exclude = None
     header = True
@@ -24,10 +26,8 @@ class CSVView(MultipleObjectMixin, View):
     allow_empty = True
     context_object_name = None
 
-    http_method_names = ('get',)
-
     def __init__(self, **kwargs):
-        super(CSVView, self).__init__(**kwargs)
+        super(CSVExportView, self).__init__(**kwargs)
 
         if self.fields and self.exclude:
             raise ImproperlyConfigured('\'{}\' cannot set fields and excludes.'.format(self.__class__.__name__))
@@ -60,7 +60,7 @@ class CSVView(MultipleObjectMixin, View):
         filename = self.filename
         if not filename:
             opts = queryset.model._meta
-            filename = unicode(opts).replace('.', '_')
+            filename = six.text_type(opts).replace('.', '_')
         return filename
 
     def get_field_value(self, obj, field_name):
@@ -85,7 +85,7 @@ class CSVView(MultipleObjectMixin, View):
                 if hasattr(choices_function, '__call__'):
                     return choices_function()
 
-            return unicode(value).encode('utf-8', 'replace')
+            return force_text(value)
         else:
             related_field_names = field_name.split('__')
             related_obj = getattr(obj, related_field_names[0])
@@ -104,7 +104,7 @@ class CSVView(MultipleObjectMixin, View):
                 # field_name is most likely a property.
                 return field_name.replace('_', ' ').title()
 
-            return unicode(field.verbose_name).encode('utf-8', 'replace').title()
+            return force_text(field.verbose_name).title()
         else:
             related_field_names = field_name.split('__')
             field = opts.get_field(related_field_names[0])

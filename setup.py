@@ -20,18 +20,18 @@ def get_version():
 if sys.argv[-1] == 'publish':
     os.system("python setup.py sdist upload")
     print("You should also add a git tag for this version:")
-    print(" git tag {0}".format(get_version()))
+    print(" git tag {}".format(get_version()))
     print(" git push --tags")
     sys.exit()
 
 
 setup(
-    name='django-csv-view',
-    version='0.0.0',
+    name='django-csv-export-view',
+    version='0.0.1',
     license='BSD',
     description='Django class-based view for CSV exports',
     long_description=get_long_description(),
-    url='https://github.com/benkonrath/django-csv-view',
+    url='https://github.com/benkonrath/django-csv-export-view',
 
     author='Ben Konrath',
     author_email='ben@bagu.org',
