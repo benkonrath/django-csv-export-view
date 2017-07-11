@@ -4,6 +4,6 @@ from __future__ import unicode_literals
 from django.apps import AppConfig
 
 
-class CSVViewConfig(AppConfig):
-    name = 'csv_view'
-    verbose_name = 'CSV View'
+class CSVExportViewConfig(AppConfig):
+    name = 'csv_export'
+    verbose_name = 'CSV Export View'
