@@ -124,12 +124,12 @@ class CSVExportView(MultipleObjectMixin, View):
         response = HttpResponse(content_type='text/csv')
 
         filename = self.get_filename(queryset)
-        response['Content-Disposition'] = 'attachment; filename="{0}.csv"'.format(filename)
+        response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(filename)
 
         writer = csv.writer(response, dialect=self.dialect, quoting=csv.QUOTE_ALL)
 
         if self.specify_separator:
-            response.write('sep={0}{1}'.format(writer.dialect.delimiter, writer.dialect.lineterminator))
+            response.write('sep={}{}'.format(writer.dialect.delimiter, writer.dialect.lineterminator))
 
         if self.header:
             writer.writerow([self.get_field_name(queryset.model, field_name) for field_name in list(field_names)])
