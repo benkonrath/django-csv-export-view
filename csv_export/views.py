@@ -32,6 +32,8 @@ class CSVExportView(MultipleObjectMixin, View):
         if self.fields and self.exclude:
             raise ImproperlyConfigured('\'{}\' cannot set fields and excludes.'.format(self.__class__.__name__))
 
+        # TODO Check to see that get_context_data() is not being overridden.
+
     def get_paginate_by(self, queryset):
         if self.paginate_by:
             raise ImproperlyConfigured('\'{}\' does not support pagination.'.format(self.__class__.__name__))
@@ -66,38 +68,24 @@ class CSVExportView(MultipleObjectMixin, View):
     def get_field_value(self, obj, field_name):
         """ Override if a custom value or behaviour is required for specific fields. """
         if '__' not in field_name:
-            value = getattr(obj, field_name)
-            if value is None:
-                return ''
-
-            # Datetime field.
-            if hasattr(value, 'isoformat') and hasattr(value.isoformat, '__call__'):
-                return value.isoformat()
-
-            # Django country field.
-            if hasattr(value, 'code') and hasattr(value, 'flag'):
-                return value.code
-
-            # Choice field.
-            choices_function_name = 'get_{}_display'.format(field_name)
-            if hasattr(obj, choices_function_name):
-                choices_function = getattr(obj, choices_function_name)
-                if hasattr(choices_function, '__call__'):
-                    return choices_function()
-
-            return force_text(value)
+            field = obj._meta.get_field(field_name)
+            value = field.value_from_object(obj)
+            if field.many_to_many:
+                return ','.join([six.text_type(ro) for ro in value])
+            elif field.choices:
+                return dict(field.choices)[value]
+            return field.value_from_object(obj)
         else:
             related_field_names = field_name.split('__')
             related_obj = getattr(obj, related_field_names[0])
             related_field_name = '__'.join(related_field_names[1:])
             return self.get_field_value(related_obj, related_field_name)
 
-    def get_field_name(self, model, field_name):
+    def get_header_name(self, model, field_name):
         """ Override if a custom value or behaviour is required for specific fields. """
-        opts = model._meta
         if '__' not in field_name:
             try:
-                field = opts.get_field(field_name)
+                field = model._meta.get_field(field_name)
             except FieldDoesNotExist as e:
                 if not hasattr(model, field_name):
                     raise e
@@ -107,9 +95,9 @@ class CSVExportView(MultipleObjectMixin, View):
             return force_text(field.verbose_name).title()
         else:
             related_field_names = field_name.split('__')
-            field = opts.get_field(related_field_names[0])
+            field = model._meta.get_field(related_field_names[0])
             assert field.is_relation
-            return self.get_field_name(field.related_model, '__'.join(related_field_names[1:]))
+            return self.get_header_name(field.related_model, '__'.join(related_field_names[1:]))
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
@@ -132,8 +120,7 @@ class CSVExportView(MultipleObjectMixin, View):
             response.write('sep={}{}'.format(writer.dialect.delimiter, writer.dialect.lineterminator))
 
         if self.header:
-            writer.writerow([self.get_field_name(queryset.model, field_name) for field_name in list(field_names)])
-
+            writer.writerow([self.get_header_name(queryset.model, field_name) for field_name in list(field_names)])
         for obj in queryset:
             writer.writerow([self.get_field_value(obj, field) for field in field_names])
         return response
