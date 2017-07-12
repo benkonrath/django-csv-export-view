@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.test import TestCase
 
-from .views import CSVExportView
+from csv_export.views import CSVExportView
 
 
 class CSVExportTests(TestCase):
@@ -14,4 +14,4 @@ class CSVExportTests(TestCase):
 
         obj = DataObject()
         view = CSVExportView()
-        view.get_field_value(obj, 'name')
+        self.assertEqual(obj.name, view.get_field_value(obj, 'name'))
