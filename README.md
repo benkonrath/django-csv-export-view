@@ -1,6 +1,8 @@
 # django-csv-export-view
 
-A class-based view for csv export. This is a work-in-progress and is not supported in any way.
+A Django class-based view for csv export.
+
+[![Build Status](https://travis-ci.org/benkonrath/django-csv-export-view.svg?branch=master)](https://travis-ci.org/benkonrath/django-csv-export-view)
 
 ## Alternatives
 
