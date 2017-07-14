@@ -5,6 +5,7 @@ from .models import Car, FieldTest, Pizza
 
 class FieldTestView(CSVExportView):
     model = FieldTest
+    fields = '__all__'
 
 
 class ManyToOneView(CSVExportView):

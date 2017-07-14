@@ -20,7 +20,7 @@ class CSVExportTests(TestCase):
 
     def test_unicode_field_value(self):
         pizza = Pizza.objects.create(name='Honoré')
-        view = CSVExportView()
+        view = CSVExportView(fields='__all__')
         self.assertEqual(pizza.name, view.get_field_value(pizza, 'name'))
 
     def test_fields(self):

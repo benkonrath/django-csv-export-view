@@ -29,8 +29,11 @@ class CSVExportView(MultipleObjectMixin, View):
     def __init__(self, **kwargs):
         super(CSVExportView, self).__init__(**kwargs)
 
+        if not self.fields and not self.exclude:
+            raise ImproperlyConfigured("'fields' or 'exclude' must be specified.")
+
         if self.fields and self.exclude:
-            raise ImproperlyConfigured('\'{}\' cannot set fields and excludes.'.format(self.__class__.__name__))
+            raise ImproperlyConfigured("Specifying both 'fields' and 'exclude' is not permitted.")
 
         # TODO Check to see that get_context_data() is not being overridden.
 
@@ -52,9 +55,15 @@ class CSVExportView(MultipleObjectMixin, View):
     def get_fields(self, queryset):
         """ Override if a dynamic fields are required. """
         field_names = self.fields
-        if not self.fields:
+        if not field_names or field_names == '__all__':
             opts = queryset.model._meta
             field_names = [field.name for field in opts.fields]
+
+        if self.exclude:
+            # Note: Ordering is undefined in this case.
+            exclude_set = set(self.exclude)
+            field_names = list(set(field_names) - exclude_set)
+
         return field_names
 
     def get_filename(self, queryset):
@@ -103,11 +112,6 @@ class CSVExportView(MultipleObjectMixin, View):
         queryset = self.get_queryset()
 
         field_names = self.get_fields(queryset)
-
-        if self.exclude:
-            # Note: Ordering is undefined in this case.
-            exclude_set = set(self.exclude)
-            field_names = list(set(field_names) - exclude_set)
 
         response = HttpResponse(content_type='text/csv')
 
