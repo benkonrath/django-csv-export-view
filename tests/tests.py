@@ -31,11 +31,13 @@ class CSVExportTests(TestCase):
         response = self.client.get(reverse('fields'))
         self.assertEqual(response.content.decode().strip(),
                          'sep=,\r\n"Date","Datetime","Choice","My Property"\r\n"2017-01-01","2017-01-01 09:00:00+00:00","Red","Foo"')
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="field-tests.csv"')
 
         # Using fields = '__all__' doesn't include properties.
         response = self.client.get(reverse('fields-all'))
         self.assertEqual(response.content.decode().strip(),
                          'sep=,\r\n"Id","Date","Datetime","Choice"\r\n"1","2017-01-01","2017-01-01 09:00:00+00:00","Red"')
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="field-tests.csv"')
 
     def test_many_to_one(self):
         bmw = Manufacturer.objects.create(name='BMW')
@@ -43,6 +45,7 @@ class CSVExportTests(TestCase):
 
         response = self.client.get(reverse('many-to-one'))
         self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Name","Manufacturer"\r\n"i3","BMW"')
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
 
     def test_many_to_many(self):
         pizza = Pizza.objects.create(name='Hawaiian')
@@ -53,6 +56,7 @@ class CSVExportTests(TestCase):
         response = self.client.get(reverse('many-to-many'))
         self.assertEqual(response.content.decode().strip(),
                          'sep=,\r\n"Name","Toppings","Topping Codes"\r\n"Hawaiian","Pineapple,Ham,Cheese","P,H,C"')
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="pizzas.csv"')
 
     def test_one_to_one(self):
         place = Place.objects.create(name='Jollibee', address='Manila')
@@ -61,3 +65,4 @@ class CSVExportTests(TestCase):
         response = self.client.get(reverse('one-to-one'))
         self.assertEqual(response.content.decode().strip(),
                          'sep=,\r\n"Name","Address","Serves Hot Dogs","Serves Pizza"\r\n"Jollibee","Manila","True","False"')
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="places.csv"')

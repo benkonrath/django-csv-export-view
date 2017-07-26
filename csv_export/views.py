@@ -19,7 +19,7 @@ class CSVExportView(MultipleObjectMixin, View):
     specify_separator = True  # Useful for Excel.
     filename = None
 
-    # Override some defaults.
+    # Override some View defaults that are not supported by CSVExportView.
     paginate_by = None
     paginator_class = None
     page_kwarg = None
@@ -70,8 +70,7 @@ class CSVExportView(MultipleObjectMixin, View):
         """ Override if a dynamic filename is required. """
         filename = self.filename
         if not filename:
-            opts = queryset.model._meta
-            filename = six.text_type(opts).replace('.', '_')
+            filename = queryset.model._meta.verbose_name_plural.replace(' ', '-')
         return filename
 
     def get_field_value(self, obj, field_name):
@@ -135,6 +134,8 @@ class CSVExportView(MultipleObjectMixin, View):
 
         if self.header:
             writer.writerow([self.get_header_name(queryset.model, field_name) for field_name in list(field_names)])
+
         for obj in queryset:
             writer.writerow([self.get_field_value(obj, field) for field in field_names])
+
         return response
