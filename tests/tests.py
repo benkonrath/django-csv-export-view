@@ -39,10 +39,10 @@ class CSVExportTests(TestCase):
 
     def test_many_to_many(self):
         pizza = Pizza.objects.create(name='Hawaiian')
-        pizza.toppings.add(Topping.objects.create(name='Pineapple'))
-        pizza.toppings.add(Topping.objects.create(name='Ham'))
-        pizza.toppings.add(Topping.objects.create(name='Cheese'))
+        pizza.toppings.add(Topping.objects.create(name='Pineapple', code='P'))
+        pizza.toppings.add(Topping.objects.create(name='Ham', code='H'))
+        pizza.toppings.add(Topping.objects.create(name='Cheese', code='C'))
 
         response = self.client.get(reverse('many-to-many'))
         self.assertEqual(response.content.decode().strip(),
-                         'sep=,\r\n"Name","Toppings"\r\n"Hawaiian","Pineapple,Ham,Cheese"')
+                         'sep=,\r\n"Name","Toppings","Topping Codes"\r\n"Hawaiian","Pineapple,Ham,Cheese","P,H,C"')

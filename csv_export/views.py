@@ -77,6 +77,8 @@ class CSVExportView(MultipleObjectMixin, View):
     def get_field_value(self, obj, field_name):
         """ Override if a custom value or behaviour is required for specific fields. """
         if '__' not in field_name:
+            if hasattr(obj, 'all') and hasattr(obj, 'iterator'):
+                return ','.join([getattr(ro, field_name) for ro in obj.all()])
             field = obj._meta.get_field(field_name)
             value = field.value_from_object(obj)
             if field.many_to_many:

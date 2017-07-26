@@ -20,4 +20,9 @@ class ManyToOneView(CSVExportView):
 
 class ManyToManyView(CSVExportView):
     model = Pizza
-    fields = ('name', 'toppings')
+    fields = ('name', 'toppings', 'toppings__code')
+
+    def get_header_name(self, model, field_name):
+        if field_name == 'toppings__code':
+            return 'Topping Codes'
+        return super(ManyToManyView, self).get_header_name(model, field_name)
