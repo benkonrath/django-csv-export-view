@@ -5,6 +5,11 @@ from .models import Car, FieldTest, Pizza
 
 class FieldTestView(CSVExportView):
     model = FieldTest
+    fields = ('date', 'datetime', 'choice', 'my_property')
+
+
+class FieldTestAllView(CSVExportView):
+    model = FieldTest
     fields = '__all__'
 
 

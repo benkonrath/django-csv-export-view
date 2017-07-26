@@ -27,8 +27,15 @@ class CSVExportTests(TestCase):
         date = datetime.date(2017, 1, 1)
         datetime_ = pytz.timezone('Europe/Amsterdam').localize(datetime.datetime(2017, 1, 1, 10, 0), is_dst=None)
         FieldTest.objects.create(date=date, datetime=datetime_)
+
         response = self.client.get(reverse('fields'))
-        self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Id","Date","Datetime","Choice"\r\n"1","2017-01-01","2017-01-01 09:00:00+00:00","Red"')
+        self.assertEqual(response.content.decode().strip(),
+                         'sep=,\r\n"Date","Datetime","Choice","My Property"\r\n"2017-01-01","2017-01-01 09:00:00+00:00","Red","Foo"')
+
+        # Using fields = '__all__' doesn't include properties.
+        response = self.client.get(reverse('fields-all'))
+        self.assertEqual(response.content.decode().strip(),
+                         'sep=,\r\n"Id","Date","Datetime","Choice"\r\n"1","2017-01-01","2017-01-01 09:00:00+00:00","Red"')
 
     def test_many_to_one(self):
         bmw = Manufacturer.objects.create(name='BMW')

@@ -7,6 +7,10 @@ class FieldTest(models.Model):
     datetime = models.DateTimeField()
     choice = models.CharField(max_length=1, choices=(('R', 'Red'), ('G', 'Green')), default='R')
 
+    @property
+    def my_property(self):
+        return 'Foo'
+
 
 # Many-to-one relationships
 @python_2_unicode_compatible

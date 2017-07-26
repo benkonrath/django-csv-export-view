@@ -79,7 +79,15 @@ class CSVExportView(MultipleObjectMixin, View):
         if '__' not in field_name:
             if hasattr(obj, 'all') and hasattr(obj, 'iterator'):
                 return ','.join([getattr(ro, field_name) for ro in obj.all()])
-            field = obj._meta.get_field(field_name)
+
+            try:
+                field = obj._meta.get_field(field_name)
+            except FieldDoesNotExist as e:
+                if not hasattr(obj, field_name):
+                    raise e
+                # field_name is a property.
+                return getattr(obj, field_name)
+
             value = field.value_from_object(obj)
             if field.many_to_many:
                 return ','.join([six.text_type(ro) for ro in value])
@@ -100,7 +108,7 @@ class CSVExportView(MultipleObjectMixin, View):
             except FieldDoesNotExist as e:
                 if not hasattr(model, field_name):
                     raise e
-                # field_name is most likely a property.
+                # field_name is a property.
                 return field_name.replace('_', ' ').title()
 
             return force_text(field.verbose_name).title()
