@@ -1,6 +1,6 @@
 from csv_export.views import CSVExportView
 
-from .models import Car, FieldTest, Pizza
+from .models import Car, FieldTest, Pizza, Place
 
 
 class FieldTestView(CSVExportView):
@@ -31,3 +31,8 @@ class ManyToManyView(CSVExportView):
         if field_name == 'toppings__code':
             return 'Topping Codes'
         return super(ManyToManyView, self).get_header_name(model, field_name)
+
+
+class OneToOneView(CSVExportView):
+    model = Place
+    fields = ('name', 'address', 'restaurant__serves_hot_dogs', 'restaurant__serves_pizza')

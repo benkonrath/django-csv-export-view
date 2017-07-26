@@ -8,7 +8,7 @@ from django.test import TestCase
 
 from csv_export.views import CSVExportView
 
-from .models import Car, FieldTest, Manufacturer, Pizza, Topping
+from .models import Car, FieldTest, Manufacturer, Pizza, Place, Restaurant, Topping
 
 try:
     from django.urls import reverse
@@ -53,3 +53,11 @@ class CSVExportTests(TestCase):
         response = self.client.get(reverse('many-to-many'))
         self.assertEqual(response.content.decode().strip(),
                          'sep=,\r\n"Name","Toppings","Topping Codes"\r\n"Hawaiian","Pineapple,Ham,Cheese","P,H,C"')
+
+    def test_one_to_one(self):
+        place = Place.objects.create(name='Jollibee', address='Manila')
+        Restaurant.objects.create(place=place, serves_hot_dogs=True, serves_pizza=False)
+
+        response = self.client.get(reverse('one-to-one'))
+        self.assertEqual(response.content.decode().strip(),
+                         'sep=,\r\n"Name","Address","Serves Hot Dogs","Serves Pizza"\r\n"Jollibee","Manila","True","False"')
