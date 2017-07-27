@@ -15,7 +15,6 @@ class CSVExportView(MultipleObjectMixin, View):
     fields = None
     exclude = None
     header = True
-    dialect = 'excel'
     specify_separator = True  # Useful for Excel.
     filename = None
 
@@ -117,6 +116,12 @@ class CSVExportView(MultipleObjectMixin, View):
             assert field.is_relation
             return self.get_header_name(field.related_model, '__'.join(related_field_names[1:]))
 
+    def get_csv_writer_fmtparams(self):
+        return {
+            'dialect': 'excel',
+            'quoting': csv.QUOTE_ALL,
+        }
+
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
 
@@ -127,7 +132,7 @@ class CSVExportView(MultipleObjectMixin, View):
         filename = self.get_filename(queryset)
         response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(filename)
 
-        writer = csv.writer(response, dialect=self.dialect, quoting=csv.QUOTE_ALL)
+        writer = csv.writer(response, **self.get_csv_writer_fmtparams())
 
         if self.specify_separator:
             response.write('sep={}{}'.format(writer.dialect.delimiter, writer.dialect.lineterminator))
