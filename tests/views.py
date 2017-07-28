@@ -36,3 +36,9 @@ class ManyToManyView(CSVExportView):
 class OneToOneView(CSVExportView):
     model = Place
     fields = ('name', 'address', 'restaurant__serves_hot_dogs', 'restaurant__serves_pizza')
+
+
+class OverrideGetQuerysetView(ManyToOneView):
+    def get_queryset(self):
+        queryset = super(OverrideGetQuerysetView, self).get_queryset()
+        return queryset.filter(manufacturer__name='Toyota')

@@ -66,3 +66,14 @@ class CSVExportTests(TestCase):
         self.assertEqual(response.content.decode().strip(),
                          'sep=,\r\n"Name","Address","Serves Hot Dogs","Serves Pizza"\r\n"Jollibee","Manila","True","False"')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="places.csv"')
+
+    def test_override_get_queryset(self):
+        bmw = Manufacturer.objects.create(name='BMW')
+        Car.objects.create(name='i3', manufacturer=bmw)
+
+        toyota = Manufacturer.objects.create(name='Toyota')
+        Car.objects.create(name='Yaris', manufacturer=toyota)
+
+        response = self.client.get(reverse('override-get-queryset'))
+        self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Name","Manufacturer"\r\n"Yaris","Toyota"')
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
