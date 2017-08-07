@@ -110,6 +110,8 @@ class CSVExportView(MultipleObjectMixin, View):
             if field.many_to_many:
                 return ','.join([six.text_type(ro) for ro in value])
             elif field.choices:
+                if not value:
+                    return ''
                 return dict(field.choices)[value]
             return field.value_from_object(obj)
         else:

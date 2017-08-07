@@ -6,6 +6,7 @@ class FieldTest(models.Model):
     date = models.DateField()
     datetime = models.DateTimeField()
     choice = models.CharField(max_length=1, choices=(('R', 'Red'), ('G', 'Green')), default='R')
+    empty_choice = models.CharField(max_length=1, choices=(('Y', 'Yellow'), ('B', 'Black')), blank=True)
 
     @property
     def my_property(self):

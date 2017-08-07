@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Allow `get_fields(self, queryset)` to be overridden.
 
+### Fixed
+- Fixed issue with blank value in choice field.
+
 ## [0.1.0] - 2017-08-01
 ### Added
 - Initial version.
