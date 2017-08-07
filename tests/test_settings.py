@@ -1,3 +1,5 @@
+import django
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -18,6 +20,9 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
+
+if django.VERSION < (1, 10):
+    MIDDLEWARE_CLASSES = MIDDLEWARE
 
 USE_TZ = True
 
