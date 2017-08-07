@@ -30,11 +30,21 @@ class DataExportView(CSVExportView):
     def get_queryset(self):
         queryset = super(DataExportView, self).get_queryset()
         return queryset.filter(deleted=True)
+
+class DataExportView(CSVExportView):
+    model = Data
+
+    def get_fields(self, queryset):
+        fields = ['username', 'email']
+        if self.request.user.is_superuser:
+            fields.append('birth_date')
+        return fields
 ```
 
 `fields` / `exclude`: An interable of field names and properties. You cannot set both `fields` and `exclude`.
 `fields` can also be `'__all__'` to export all fields. Model properties are not included when `'__all__'` is used.
-Related field can be used with `__`.
+Related field can be used with `__`. Override `get_fields(self, queryset)` for custom behaviour not supported by the
+default logic.
 
 `model`: The model to use for the CSV export queryset. Override `get_queryset()` if you need a custom queryset.
 

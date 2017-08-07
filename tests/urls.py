@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
-from .views import FieldTestAllView, FieldTestView, ManyToManyView, ManyToOneView, OneToOneView, OverrideGetQuerysetView
+from .views import (FieldTestAllView, FieldTestView, ManyToManyView, ManyToOneView, OneToOneView, OverrideGetFieldsView,
+                    OverrideGetQuerysetView)
 
 urlpatterns = [
     url(r'^fields/$', FieldTestView.as_view(), name='fields'),
@@ -9,4 +10,5 @@ urlpatterns = [
     url(r'^many-to-one/$', ManyToOneView.as_view(), name='many-to-one'),
     url(r'^one-to-one/$', OneToOneView.as_view(), name='one-to-one'),
     url(r'^override-get-queryset/$', OverrideGetQuerysetView.as_view(), name='override-get-queryset'),
+    url(r'^override-get-fields/$', OverrideGetFieldsView.as_view(), name='override-get-fields'),
 ]

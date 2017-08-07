@@ -42,3 +42,13 @@ class OverrideGetQuerysetView(ManyToOneView):
     def get_queryset(self):
         queryset = super(OverrideGetQuerysetView, self).get_queryset()
         return queryset.filter(manufacturer__name='Toyota')
+
+
+class OverrideGetFieldsView(CSVExportView):
+    model = Car
+
+    def get_fields(self, queryset):
+        fields = ['name', 'manufacturer__name']
+        if not self.request.user.is_superuser:
+            fields.remove('manufacturer__name')
+        return fields

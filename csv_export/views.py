@@ -11,6 +11,16 @@ from django.views.generic.base import View
 from django.views.generic.list import MultipleObjectMixin
 
 
+def _get_method_type():
+    class C(object):
+        def x(self):
+            pass
+    return type(getattr(C, 'x'))
+
+_method_type = _get_method_type()
+
+
+
 class CSVExportView(MultipleObjectMixin, View):
     fields = None
     exclude = None
@@ -28,11 +38,21 @@ class CSVExportView(MultipleObjectMixin, View):
     def __init__(self, **kwargs):
         super(CSVExportView, self).__init__(**kwargs)
 
-        if not self.fields and not self.exclude:
-            raise ImproperlyConfigured("'fields' or 'exclude' must be specified.")
+        # Only check if fields / excludes are setup correctly when get_fields is not overridden.
+        get_fields_overridden = False
+        for cls in self.__class__.__mro__:
+            if cls == CSVExportView:
+                break
+            if hasattr(cls, 'get_fields') and type(getattr(cls, 'get_fields')) == _method_type:
+                get_fields_overridden = True
+                break
 
-        if self.fields and self.exclude:
-            raise ImproperlyConfigured("Specifying both 'fields' and 'exclude' is not permitted.")
+        if not get_fields_overridden:
+            if not self.fields and not self.exclude:
+                raise ImproperlyConfigured("'fields' or 'exclude' must be specified.")
+
+            if self.fields and self.exclude:
+                raise ImproperlyConfigured("Specifying both 'fields' and 'exclude' is not permitted.")
 
         # TODO Check to see that get_context_data() is not being overridden.
 

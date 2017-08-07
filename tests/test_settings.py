@@ -8,8 +8,15 @@ DATABASES = {
 SECRET_KEY = 'fake-key'
 
 INSTALLED_APPS = [
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
     'csv_export',
     'tests',
+]
+
+MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
 USE_TZ = True
