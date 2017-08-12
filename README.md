@@ -9,8 +9,8 @@ A Django class-based view for CSV export.
 * Easy CSV exports using the familiar `model` and `fields` / `exclude` pattern
 * Works with your existing class-based view mixins for access control
 * Generates Micosoft Excel friendly CSV by default
-* Easy to override defaults as needed
 * Proper HTTP headers set for CSV
+* Easy to override defaults as needed
 
 ## Quick Start
 
@@ -25,6 +25,7 @@ class DataExportView(CSVExportView):
     fields = '__all__'
 
 class DataExportView(CSVExportView):
+    model = Data
     exclude = ('id',)
 
     def get_queryset(self):
@@ -76,6 +77,25 @@ Override `get_filename(self, queryset)` if a dynamic filename is required.
 `specify_separator` - *boolean* - Default: `True`  
 Whether or not to include `sep=<sepaator>` as the first line of the CSV file. This is useful for generating Microsoft
 Excel friendly CSV.
+
+## CSV Writer Options
+
+Example:
+```python
+class DataExportView(CSVExportView):
+    model = Data
+    fields = '__all__'
+
+    def get_csv_writer_fmtparams(self):
+        fmtparams = super(DataExportView, self).get_csv_writer_fmtparams()
+        fmtparams['delimiter'] = '|'
+        return fmtparams
+```
+
+Override `get_csv_writer_fmtparams(self)` and return a dictionary of csv write format parameters. Default format
+parameters are: dialect='excel' and quoting=csv.QUOTE_ALL. See all available options in the Python docs:
+
+https://docs.python.org/3.6/library/csv.html#csv.writer
 
 ## Contributions
 
