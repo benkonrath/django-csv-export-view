@@ -52,3 +52,10 @@ class OverrideGetFieldsView(CSVExportView):
         if not self.request.user.is_superuser:
             fields.remove('manufacturer__name')
         return fields
+
+
+class OverrideGetCSVWriterFmtParamsView(ManyToOneView):
+    def get_csv_writer_fmtparams(self):
+        fmtparams = super(OverrideGetCSVWriterFmtParamsView, self).get_csv_writer_fmtparams()
+        fmtparams['delimiter'] = '|'
+        return fmtparams

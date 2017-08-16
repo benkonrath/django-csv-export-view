@@ -85,3 +85,11 @@ class CSVExportTests(TestCase):
         response = self.client.get(reverse('override-get-fields'))
         self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Name"\r\n"i3"')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
+
+    def test_override_get_csv_writer_fmtparams(self):
+        bmw = Manufacturer.objects.create(name='BMW')
+        Car.objects.create(name='i3', manufacturer=bmw)
+
+        response = self.client.get(reverse('override-get-csv-writer-fmtparams'))
+        self.assertEqual(response.content.decode().strip(), 'sep=|\r\n"Name"|"Manufacturer"\r\n"i3"|"BMW"')
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
