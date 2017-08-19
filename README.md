@@ -11,6 +11,7 @@ A Django class-based view for CSV export.
 * Generates Micosoft Excel friendly CSV by default
 * Proper HTTP headers set for CSV
 * Easy to override defaults as needed
+* Easy itegration into Django Admin
 
 ## Quick Start
 
@@ -96,6 +97,21 @@ Override `get_csv_writer_fmtparams(self)` and return a dictionary of csv write f
 parameters are: dialect='excel' and quoting=csv.QUOTE_ALL. See all available options in the Python docs:
 
 https://docs.python.org/3.6/library/csv.html#csv.writer
+
+## Django Admin Integration
+
+Example:
+```python
+@admin.register(Data)
+class DataAdmin(admin.ModelAdmin):
+    actions = ('export_data_csv',)
+
+    def export_data_csv(self, request, queryset):
+        view = CSVExportView(queryset=queryset, fields='__all__')
+        return view.get(request)
+
+    export_data_csv.short_description = 'Export CSV for selected Data records'
+```
 
 ## Contributions
 

@@ -8,6 +8,7 @@ from django.test import TestCase
 
 from csv_export.views import CSVExportView
 
+from .admin import CarAdmin
 from .models import Car, FieldTest, Manufacturer, Pizza, Place, Restaurant, Topping
 
 try:
@@ -92,4 +93,14 @@ class CSVExportTests(TestCase):
 
         response = self.client.get(reverse('override-get-csv-writer-fmtparams'))
         self.assertEqual(response.content.decode().strip(), 'sep=|\r\n"Name"|"Manufacturer"\r\n"i3"|"BMW"')
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
+
+    def test_admin_csv_export(self):
+        bmw = Manufacturer.objects.create(name='BMW')
+        Car.objects.create(name='i3', manufacturer=bmw)
+
+        car_admin = CarAdmin(Car, None)
+        response = car_admin.export_car_csv(None, Car.objects.all())
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Id","Name","Manufacturer"\r\n"1","i3","1"')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
