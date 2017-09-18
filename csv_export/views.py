@@ -42,6 +42,7 @@ class CSVExportView(MultipleObjectMixin, View):
         get_fields_overridden = False
         for cls in self.__class__.__mro__:
             if cls == CSVExportView:
+                # We can stop checking once we hit CSVExportView.
                 break
             if hasattr(cls, 'get_fields') and type(getattr(cls, 'get_fields')) == _method_type:
                 get_fields_overridden = True
@@ -54,7 +55,10 @@ class CSVExportView(MultipleObjectMixin, View):
             if self.fields and self.exclude:
                 raise ImproperlyConfigured("Specifying both 'fields' and 'exclude' is not permitted.")
 
-        # TODO Check to see that get_context_data() is not being overridden.
+        # Check to see that get_context_data() is not being overridden.
+        if 'get_context_data' in self.__class__.__dict__ and \
+                type(self.__class__.__dict__['get_context_data']) == _method_type:
+            raise ImproperlyConfigured("Overridding 'get_context_data()' is not permitted.")
 
     def get_paginate_by(self, queryset):
         if self.paginate_by:

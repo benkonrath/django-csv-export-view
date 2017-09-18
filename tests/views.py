@@ -59,3 +59,10 @@ class OverrideGetCSVWriterFmtParamsView(ManyToOneView):
         fmtparams = super(OverrideGetCSVWriterFmtParamsView, self).get_csv_writer_fmtparams()
         fmtparams['delimiter'] = '|'
         return fmtparams
+
+
+class OverrideGetContextDataView(CSVExportView):
+    def get_context_data(self):
+        context = super(OverrideGetContextDataView, self).get_context_data()
+        context['sport'] = 'baseball'
+        return context

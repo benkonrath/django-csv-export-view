@@ -4,12 +4,14 @@ from __future__ import unicode_literals
 import datetime
 
 import pytz
+from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 
 from csv_export.views import CSVExportView
 
 from .admin import CarAdmin
 from .models import Car, FieldTest, Manufacturer, Pizza, Place, Restaurant, Topping
+from .views import OverrideGetContextDataView
 
 try:
     from django.urls import reverse
@@ -104,3 +106,6 @@ class CSVExportTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Id","Name","Manufacturer"\r\n"1","i3","1"')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
+
+    def test_improperly_configured(self):
+        self.assertRaises(ImproperlyConfigured, OverrideGetContextDataView)
