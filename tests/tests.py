@@ -11,7 +11,6 @@ from csv_export.views import CSVExportView
 
 from .admin import CarAdmin
 from .models import Car, FieldTest, Manufacturer, Pizza, Place, Restaurant, Topping
-from .views import OverrideGetContextDataView
 
 try:
     from django.urls import reverse
@@ -108,4 +107,12 @@ class CSVExportTests(TestCase):
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
 
     def test_improperly_configured(self):
-        self.assertRaises(ImproperlyConfigured, OverrideGetContextDataView)
+        class OverrideGetContextDataView(CSVExportView):
+            fields = '__all__'
+
+            def get_context_data(self):
+                return super(OverrideGetContextDataView, self).get_context_data()
+
+        with self.assertRaises(ImproperlyConfigured) as cm:
+            OverrideGetContextDataView()
+        self.assertEqual(cm.exception.args[0], "Overriding 'get_context_data()' is not permitted.")

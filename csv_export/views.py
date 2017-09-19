@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 import csv
+import types
 
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
 from django.http.response import HttpResponse
@@ -18,7 +19,6 @@ def _get_method_type():
     return type(getattr(C, 'x'))
 
 _method_type = _get_method_type()
-
 
 
 class CSVExportView(MultipleObjectMixin, View):
@@ -56,9 +56,8 @@ class CSVExportView(MultipleObjectMixin, View):
                 raise ImproperlyConfigured("Specifying both 'fields' and 'exclude' is not permitted.")
 
         # Check to see that get_context_data() is not being overridden.
-        if 'get_context_data' in self.__class__.__dict__ and \
-                type(self.__class__.__dict__['get_context_data']) == _method_type:
-            raise ImproperlyConfigured("Overridding 'get_context_data()' is not permitted.")
+        if 'get_context_data' in self.__class__.__dict__ and types.FunctionType:
+            raise ImproperlyConfigured("Overriding 'get_context_data()' is not permitted.")
 
     def get_paginate_by(self, queryset):
         if self.paginate_by:
