@@ -50,14 +50,14 @@ class CSVExportView(MultipleObjectMixin, View):
 
         if not get_fields_overridden:
             if not self.fields and not self.exclude:
-                raise ImproperlyConfigured("'fields' or 'exclude' must be specified.")
+                raise ImproperlyConfigured('\'fields\' or \'exclude\' must be specified.')
 
             if self.fields and self.exclude:
-                raise ImproperlyConfigured("Specifying both 'fields' and 'exclude' is not permitted.")
+                raise ImproperlyConfigured('Specifying both \'fields\' and \'exclude\' is not permitted.')
 
         # Check to see that get_context_data() is not being overridden.
         if 'get_context_data' in self.__class__.__dict__ and types.FunctionType:
-            raise ImproperlyConfigured("Overriding 'get_context_data()' is not permitted.")
+            raise ImproperlyConfigured('Overriding \'get_context_data()\' is not permitted.')
 
     def get_paginate_by(self, queryset):
         if self.paginate_by:

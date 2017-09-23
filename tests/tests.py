@@ -115,4 +115,4 @@ class CSVExportTests(TestCase):
 
         with self.assertRaises(ImproperlyConfigured) as cm:
             OverrideGetContextDataView()
-        self.assertEqual(cm.exception.args[0], "Overriding 'get_context_data()' is not permitted.")
+        self.assertEqual(cm.exception.args[0], 'Overriding \'get_context_data()\' is not permitted.')
