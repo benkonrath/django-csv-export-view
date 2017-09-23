@@ -107,6 +107,7 @@ class CSVExportTests(TestCase):
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
 
     def test_improperly_configured(self):
+        # get_context_data()
         class OverrideGetContextDataView(CSVExportView):
             fields = '__all__'
 
@@ -116,3 +117,51 @@ class CSVExportTests(TestCase):
         with self.assertRaises(ImproperlyConfigured) as cm:
             OverrideGetContextDataView()
         self.assertEqual(cm.exception.args[0], 'Overriding \'get_context_data()\' is not permitted.')
+
+        # get_paginate_by()
+        class OverrideGetPaginateByView(CSVExportView):
+            fields = '__all__'
+
+            def get_paginate_by(self, queryset):
+                return super(OverrideGetPaginateByView, self).get_paginate_by(queryset)
+
+        with self.assertRaises(ImproperlyConfigured) as cm:
+            OverrideGetPaginateByView()
+        self.assertEqual(cm.exception.args[0], 'Overriding \'get_paginate_by()\' is not permitted.')
+
+        # get_allow_empty()
+        class OverrideGetAllowEmptyView(CSVExportView):
+            fields = '__all__'
+
+            def get_allow_empty(self):
+                return super(OverrideGetAllowEmptyView, self).get_allow_empty()
+
+        with self.assertRaises(ImproperlyConfigured) as cm:
+            OverrideGetAllowEmptyView()
+        self.assertEqual(cm.exception.args[0], 'Overriding \'get_allow_empty()\' is not permitted.')
+
+        # get_context_object_name()
+        class OverrideGetContextObjectNameView(CSVExportView):
+            fields = '__all__'
+
+            def get_context_object_name(self, object_list):
+                return super(OverrideGetContextObjectNameView, self).get_context_object_name(object_list)
+
+        with self.assertRaises(ImproperlyConfigured) as cm:
+            OverrideGetContextObjectNameView()
+        self.assertEqual(cm.exception.args[0], 'Overriding \'get_context_object_name()\' is not permitted.')
+
+        # paginate_by
+        with self.assertRaises(ImproperlyConfigured) as cm:
+            CSVExportView(fields='__all__', paginate_by=10)
+        self.assertEqual(cm.exception.args[0], '\'CSVExportView\' does not support pagination.')
+
+        # allow_empty
+        with self.assertRaises(ImproperlyConfigured) as cm:
+            CSVExportView(fields='__all__', allow_empty=False)
+        self.assertEqual(cm.exception.args[0], '\'CSVExportView\' does not support disabling allow_empty.')
+
+        # context_object_name
+        with self.assertRaises(ImproperlyConfigured) as cm:
+            CSVExportView(fields='__all__', context_object_name='foo')
+        self.assertEqual(cm.exception.args[0], '\'CSVExportView\' does not support setting context_object_name.')

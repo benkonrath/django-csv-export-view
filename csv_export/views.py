@@ -55,24 +55,20 @@ class CSVExportView(MultipleObjectMixin, View):
             if self.fields and self.exclude:
                 raise ImproperlyConfigured('Specifying both \'fields\' and \'exclude\' is not permitted.')
 
-        # Check to see that get_context_data() is not being overridden.
-        if 'get_context_data' in self.__class__.__dict__ and types.FunctionType:
-            raise ImproperlyConfigured('Overriding \'get_context_data()\' is not permitted.')
+        # Check that some special functions are not being overridden.
+        for function_override in ('get_context_data', 'get_paginate_by', 'get_allow_empty', 'get_context_object_name'):
+            if function_override in self.__class__.__dict__ and \
+                    type(self.__class__.__dict__[function_override]) == types.FunctionType:
+                raise ImproperlyConfigured('Overriding \'{}()\' is not permitted.'.format(function_override))
 
-    def get_paginate_by(self, queryset):
         if self.paginate_by:
             raise ImproperlyConfigured('\'{}\' does not support pagination.'.format(self.__class__.__name__))
-        return None
 
-    def get_allow_empty(self):
         if not self.allow_empty:
             raise ImproperlyConfigured('\'{}\' does not support disabling allow_empty.'.format(self.__class__.__name__))
-        return True
 
-    def get_context_object_name(self, object_list):
         if self.context_object_name:
             raise ImproperlyConfigured('\'{}\' does not support setting context_object_name.'.format(self.__class__.__name__))
-        return None
 
     def get_fields(self, queryset):
         """ Override if a dynamic fields are required. """
