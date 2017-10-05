@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import csv
 import types
 
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
@@ -10,6 +9,11 @@ from django.utils import six
 from django.utils.encoding import force_text
 from django.views.generic.base import View
 from django.views.generic.list import MultipleObjectMixin
+
+if six.PY3:
+    import csv
+else:
+    import unicodecsv as csv
 
 
 def _get_method_type():

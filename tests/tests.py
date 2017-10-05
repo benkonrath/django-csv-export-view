@@ -106,6 +106,14 @@ class CSVExportTests(TestCase):
         self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Id","Name","Manufacturer"\r\n"1","i3","1"')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
 
+    def test_unicode_csv_data(self):
+        schrodinger = Manufacturer.objects.create(name='Schrödinger')
+        Car.objects.create(name='Cat', manufacturer=schrodinger)
+
+        response = self.client.get(reverse('many-to-one'))
+        self.assertEqual(response.content.decode('utf-8').strip(), 'sep=,\r\n"Name","Manufacturer"\r\n"Cat","Schrödinger"')
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
+
     def test_improperly_configured(self):
         # get_context_data()
         class OverrideGetContextDataView(CSVExportView):
