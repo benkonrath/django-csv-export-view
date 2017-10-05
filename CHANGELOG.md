@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 - Fixed issue with unicode csv data on Python 2.
 
+### Removed
+- Drop support for Python 3.3.
+
 ## [0.2.0] - 2017-08-07
 ### Added
 - Allow `get_fields(self, queryset)` to be overridden.
