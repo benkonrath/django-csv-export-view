@@ -5,7 +5,7 @@ from .models import Car, FieldTest, Pizza, Place
 
 class FieldTestView(CSVExportView):
     model = FieldTest
-    fields = ('date', 'datetime', 'choice', 'empty_choice', 'my_property')
+    fields = ('date', 'datetime', 'choice', 'empty_choice', 'integer_choice', 'my_property')
 
 
 class FieldTestAllView(CSVExportView):

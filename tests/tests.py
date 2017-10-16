@@ -32,13 +32,13 @@ class CSVExportTests(TestCase):
 
         response = self.client.get(reverse('fields'))
         self.assertEqual(response.content.decode().strip(),
-                         'sep=,\r\n"Date","Datetime","Choice","Empty Choice","My Property"\r\n"2017-01-01","2017-01-01 09:00:00+00:00","Red","","Foo"')
+                         'sep=,\r\n"Date","Datetime","Choice","Empty Choice","Integer Choice","My Property"\r\n"2017-01-01","2017-01-01 09:00:00+00:00","Red","","Zero","Foo"')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="field-tests.csv"')
 
         # Using fields = '__all__' doesn't include properties.
         response = self.client.get(reverse('fields-all'))
         self.assertEqual(response.content.decode().strip(),
-                         'sep=,\r\n"Id","Date","Datetime","Choice","Empty Choice"\r\n"1","2017-01-01","2017-01-01 09:00:00+00:00","Red",""')
+                         'sep=,\r\n"Id","Date","Datetime","Choice","Empty Choice","Integer Choice"\r\n"1","2017-01-01","2017-01-01 09:00:00+00:00","Red","","Zero"')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="field-tests.csv"')
 
     def test_many_to_one(self):
