@@ -31,7 +31,7 @@ class DataExportView(CSVExportView):
 
     def get_queryset(self):
         queryset = super(DataExportView, self).get_queryset()
-        return queryset.filter(deleted=True)
+        return queryset.exclude(deleted=True)
 
 class DataExportView(CSVExportView):
     model = Data
