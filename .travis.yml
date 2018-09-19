@@ -1,37 +1,64 @@
 language: python
 sudo: false
 cache: pip
+
 matrix:
   include:
     - python: 3.6
       env: TOXENV=isort
     - python: 2.7
-      env: TOXENV=py27-django-1.8
-    - python: 2.7
-      env: TOXENV=py27-django-1.10
-    - python: 2.7
-      env: TOXENV=py27-django-1.11
+      env: TOXENV=py27-1.11
+    - python: pypy
+      env: TOXENV=pypy-1.11
     - python: 3.4
-      env: TOXENV=py34-django-1.8
-    - python: 3.4
-      env: TOXENV=py34-django-1.10
-    - python: 3.4
-      env: TOXENV=py34-django-1.11
+      env: TOXENV=py34-1.11
     - python: 3.5
-      env: TOXENV=py35-django-1.10
+      env: TOXENV=py35-1.11
+    - python: 3.6
+      env: TOXENV=py36-1.11
+    - python: pypy3
+      env: TOXENV=pypy3-1.11
+    - python: 3.4
+      env: TOXENV=py34-2.0
     - python: 3.5
-      env: TOXENV=py35-django-1.11
+      env: TOXENV=py35-2.0
+    - python: 3.6
+      env: TOXENV=py36-2.0
+    - python: pypy3
+      env: TOXENV=pypy3-2.0
+    - python: 3.5
+      env: TOXENV=py35-2.1
+    - python: 3.6
+      env: TOXENV=py36-2.1
+    # Need to use xenial with sudo for Python 3.7.
+    # https://github.com/travis-ci/travis-ci/issues/9815
+    - python: 3.7
+      dist: xenial
+      sudo: true
+      env: TOXENV=py37-2.1
+    - python: pypy3
+      env: TOXENV=pypy3-2.1
     - python: 3.5
       env: TOXENV=py35-master
     - python: 3.6
-      env: TOXENV=py36-django-1.11
-    - python: 3.6
       env: TOXENV=py36-master
+    - python: 3.7
+      dist: xenial
+      sudo: true
+      env: TOXENV=py37-master
+    - python: pypy3
+      env: TOXENV=pypy3-master
   allow_failures:
     - python: 3.5
       env: TOXENV=py35-master
     - python: 3.6
       env: TOXENV=py36-master
+    - python: 3.7
+      dist: xenial
+      sudo: true
+      env: TOXENV=py37-master
+    - python: pypy3
+      env: TOXENV=pypy3-master
 install:
   - pip install coverage tox
 script:
