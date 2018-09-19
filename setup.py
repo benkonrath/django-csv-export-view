@@ -13,13 +13,7 @@ def get_long_description():
     current_dir = path.abspath(path.dirname(__file__))
     readme_path = path.join(current_dir, 'README.md')
     with open(readme_path, encoding='utf-8') as f:
-        try:
-            import pypandoc
-            long_description = pypandoc.convert_text(f.read(), 'rst', 'markdown_github').replace('\r', '')
-        except(OSError, ImportError):
-            print('\n\n!!! pandoc not found. long_description is not correct. Do not upload this to PyPI. !!!\n\n')
-            long_description = f.read()
-    return long_description
+        return f.read()
 
 
 def get_version():
@@ -44,6 +38,7 @@ setup(
     license='BSD',
     description='Django class-based view for CSV exports',
     long_description=get_long_description(),
+    long_description_content_type='text/markdown',
     url='https://github.com/benkonrath/django-csv-export-view',
 
     author='Ben Konrath',
