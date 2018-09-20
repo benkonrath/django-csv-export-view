@@ -21,9 +21,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 
-if django.VERSION < (1, 10):
-    MIDDLEWARE_CLASSES = MIDDLEWARE
-
 USE_TZ = True
 
 ROOT_URLCONF = 'tests.urls'
