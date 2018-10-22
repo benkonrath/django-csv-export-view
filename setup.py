@@ -46,7 +46,7 @@ setup(
 
     packages=find_packages(exclude=['tests*']),
     include_package_data=True,
-    data_files=[('', ['README.md'])],
+    data_files=[('', ['README.md', 'CHANGELOG.md'])],
     zip_safe=False,
     install_requires=[
         'django>=1.11',
