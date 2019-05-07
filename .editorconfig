@@ -14,8 +14,6 @@ indent_size = 2
 
 [*.py]
 indent_size = 4
-known_first_party = csv_export
-default_section = THIRDPARTY
 
 [*.{diff,md}]
 trim_trailing_whitespace = false
