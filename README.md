@@ -13,6 +13,10 @@ A Django class-based view for CSV export.
 * Easy to override defaults as needed
 * Easy itegration into Django Admin
 
+## Installation
+
+`pip install django-csv-export-view`
+
 ## Quick Start
 
 Examples:
