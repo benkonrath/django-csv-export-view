@@ -6,12 +6,12 @@ A Django class-based view for CSV export.
 
 ## Features
 
-* Easy CSV exports using the familiar `model` and `fields` / `exclude` pattern
-* Works with your existing class-based view mixins for access control
-* Generates Micosoft Excel friendly CSV by default
+* Easy CSV exports by setting a Django `model` and a `fields` or `exclude` iterable
+* Works with existing class-based view mixins for access control
+* Generates Microsoft Excel friendly CSV by default
 * Proper HTTP headers set for CSV
 * Easy to override defaults as needed
-* Easy itegration into Django Admin
+* Easy integration into Django Admin
 
 ## Installation
 
@@ -47,7 +47,7 @@ class DataExportView(CSVExportView):
         return fields
 ```
 
-`fields` / `exclude`: An interable of field names and properties. You cannot set both `fields` and `exclude`.
+`fields` / `exclude`: An iterable of field names and properties. You cannot set both `fields` and `exclude`.
 `fields` can also be `'__all__'` to export all fields. Model properties are not included when `'__all__'` is used.
 Related field can be used with `__`. Override `get_fields(self, queryset)` for custom behaviour not supported by the
 default logic.
