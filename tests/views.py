@@ -54,6 +54,18 @@ class OverrideGetFieldsView(CSVExportView):
         return fields
 
 
+class SetFilenameView(CSVExportView):
+    model = Car
+    filename = 'fancy-cars.csv'
+
+
+class OverrideGetFilenameView(CSVExportView):
+    model = Car
+
+    def get_filename(self, queryset):
+        return 'fancy-cars.csv'
+
+
 class OverrideGetCSVWriterFmtParamsView(ManyToOneView):
     def get_csv_writer_fmtparams(self):
         fmtparams = super(OverrideGetCSVWriterFmtParamsView, self).get_csv_writer_fmtparams()

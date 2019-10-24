@@ -155,7 +155,9 @@ class CSVExportView(MultipleObjectMixin, View):
         response = HttpResponse(content_type='text/csv')
 
         filename = self.get_filename(queryset)
-        response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(filename)
+        if not filename.endswith('.csv'):
+            filename += '.csv'
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(filename)
 
         writer = csv.writer(response, **self.get_csv_writer_fmtparams())
 

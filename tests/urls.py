@@ -1,7 +1,8 @@
 from django.conf.urls import url
 
 from .views import (FieldTestAllView, FieldTestView, ManyToManyView, ManyToOneView, OneToOneView,
-                    OverrideGetCSVWriterFmtParamsView, OverrideGetFieldsView, OverrideGetQuerysetView)
+                    OverrideGetCSVWriterFmtParamsView, OverrideGetFieldsView, OverrideGetFilenameView,
+                    OverrideGetQuerysetView, SetFilenameView)
 
 urlpatterns = [
     url(r'^fields/$', FieldTestView.as_view(), name='fields'),
@@ -11,6 +12,8 @@ urlpatterns = [
     url(r'^one-to-one/$', OneToOneView.as_view(), name='one-to-one'),
     url(r'^override-get-queryset/$', OverrideGetQuerysetView.as_view(), name='override-get-queryset'),
     url(r'^override-get-fields/$', OverrideGetFieldsView.as_view(), name='override-get-fields'),
+    url(r'^set-filename/$', SetFilenameView.as_view(), name='set-filename'),
+    url(r'^override-get-filename/$', OverrideGetFilenameView.as_view(), name='override-get-filename'),
     url(r'^override-get-csv-writer-fmtparams/$', OverrideGetCSVWriterFmtParamsView.as_view(),
         name='override-get-csv-writer-fmtparams'),
 ]

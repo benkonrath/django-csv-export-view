@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Test on Django 2.2.
 
+### Fixed
+- Fixed bug with filename getting duplicate .csv extension.
+
 ## [1.0.0]
 ### Added
 - Add CHANGELOG.md to release.

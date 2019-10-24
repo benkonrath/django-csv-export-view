@@ -6,6 +6,7 @@ import datetime
 import pytz
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
+from parameterized import parameterized
 
 from csv_export.views import CSVExportView
 
@@ -87,6 +88,15 @@ class CSVExportTests(TestCase):
         response = self.client.get(reverse('override-get-fields'))
         self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Name"\r\n"i3"')
         self.assertEqual(response['Content-Disposition'], 'attachment; filename="cars.csv"')
+
+    @parameterized.expand(['set-filename', 'override-get-filename'])
+    def test_filename(self, view_name):
+        bmw = Manufacturer.objects.create(name='BMW')
+        Car.objects.create(name='i3', manufacturer=bmw)
+
+        response = self.client.get(reverse(view_name))
+        self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Id","Name","Manufacturer"\r\n"1","i3","1"')
+        self.assertEqual(response['Content-Disposition'], 'attachment; filename="fancy-cars.csv"')
 
     def test_override_get_csv_writer_fmtparams(self):
         bmw = Manufacturer.objects.create(name='BMW')
