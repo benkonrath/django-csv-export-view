@@ -50,7 +50,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial version.
 
-[Unreleased]: https://github.com/benkonrath/django-csv-export-view/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/benkonrath/django-csv-export-view/compare/1.0.1...HEAD
+[1.0.1]: https://github.com/benkonrath/django-csv-export-view/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/benkonrath/django-csv-export-view/compare/0.5.0...1.0.0
 [0.5.0]: https://github.com/benkonrath/django-csv-export-view/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/benkonrath/django-csv-export-view/compare/0.3.0...0.4.0
