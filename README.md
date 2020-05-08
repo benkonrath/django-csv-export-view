@@ -21,6 +21,8 @@ A Django class-based view for CSV export.
 
 Examples:
 ```python
+from csv_export.views import CSVExportView 
+
 class DataExportView(CSVExportView):
     model = Data
     fields = ('field1', 'field2__related_field', 'property1')
