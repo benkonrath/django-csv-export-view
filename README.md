@@ -21,7 +21,7 @@ A Django class-based view for CSV export.
 
 Examples:
 ```python
-from csv_export.views import CSVExportView 
+from csv_export.views import CSVExportView
 
 class DataExportView(CSVExportView):
     model = Data
@@ -60,6 +60,8 @@ default logic.
 
 Examples:
 ```python
+from csv_export.views import CSVExportView
+
 class DataExportView(CSVExportView):
     model = Data
     fields = '__all__'
@@ -89,6 +91,8 @@ Excel friendly CSV.
 
 Example:
 ```python
+from csv_export.views import CSVExportView
+
 class DataExportView(CSVExportView):
     model = Data
     fields = '__all__'
@@ -108,6 +112,9 @@ https://docs.python.org/3.6/library/csv.html#csv.writer
 
 Example:
 ```python
+from django.contrib import admin
+from csv_export.views import CSVExportView
+
 @admin.register(Data)
 class DataAdmin(admin.ModelAdmin):
     actions = ('export_data_csv',)
