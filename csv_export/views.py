@@ -3,9 +3,9 @@ from __future__ import unicode_literals
 
 import types
 
+import six
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
 from django.http.response import HttpResponse
-from django.utils import six
 from django.utils.encoding import force_text
 from django.views.generic.base import View
 from django.views.generic.list import MultipleObjectMixin
