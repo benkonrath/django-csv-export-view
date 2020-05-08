@@ -2,9 +2,10 @@ language: python
 sudo: false
 cache: pip
 dist: xenial
+
 matrix:
   include:
-    - python: 3.6
+    - python: 3.8
       env: TOXENV=isort
 
     - python: 2.7
@@ -18,7 +19,7 @@ matrix:
     - python: pypy
       dist: trusty
       env: TOXENV=pypy-django-1.11
-    - python: pypy3.5
+    - python: pypy3
       env: TOXENV=pypy3-django-1.11
 
     - python: 3.4
@@ -38,7 +39,7 @@ matrix:
       env: TOXENV=py36-django-2.1
     - python: 3.7
       env: TOXENV=py37-django-2.1
-    - python: pypy3.5
+    - python: pypy3
       env: TOXENV=pypy3-django-2.1
 
     - python: 3.5
@@ -47,18 +48,26 @@ matrix:
       env: TOXENV=py36-django-2.2
     - python: 3.7
       env: TOXENV=py37-django-2.2
-    - python: pypy3.5
+    - python: 3.8
+      env: TOXENV=py38-django-2.2
+    - python: pypy3
       env: TOXENV=pypy3-django-2.2
 
     - python: 3.6
       env: TOXENV=py36-django-master
     - python: 3.7
       env: TOXENV=py37-django-master
+    - python: 3.8
+      env: TOXENV=py38-django-master
+    - python: pypy3
+      env: TOXENV=pypy3-django-master
   allow_failures:
     - python: 3.6
       env: TOXENV=py36-django-master
     - python: 3.7
       env: TOXENV=py37-django-master
+    - python: 3.8
+      env: TOXENV=py38-django-master
 install:
   - pip install coverage tox
 script:
