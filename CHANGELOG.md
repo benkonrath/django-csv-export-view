@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Add support for Django 3.0.
+- Test on Python 3.8 (for Django versions with support).
+
 ## [1.0.1]
 ### Added
 - Test on Django 2.2.
