@@ -5,8 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Test on Django 3.0, 3.1 & 3.2
+- Test on Python 3.9 (for Django versions with support).
+
 ### Removed
-- Drop support for Python 2.
+- Drop support for Python 2 and Python 3.4.
 - Drop support for Django 1.11.
 
 ## [1.1.0]

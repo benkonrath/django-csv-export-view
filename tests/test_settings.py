@@ -36,7 +36,11 @@ TEMPLATES = [
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         }
     }
 ]
+
+SILENCED_SYSTEM_CHECKS = ('models.W042',)
+

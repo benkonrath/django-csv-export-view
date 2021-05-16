@@ -3,7 +3,7 @@ import types
 
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
 from django.http.response import HttpResponse
-from django.utils.encoding import force_text, force_str
+from django.utils.encoding import force_str
 from django.views.generic.base import View
 from django.views.generic.list import MultipleObjectMixin
 
@@ -126,7 +126,7 @@ class CSVExportView(MultipleObjectMixin, View):
                 # field_name is a property.
                 return field_name.replace('_', ' ').title()
 
-            return force_text(field.verbose_name).title()
+            return force_str(field.verbose_name).title()
         else:
             related_field_names = field_name.split('__')
             field = model._meta.get_field(related_field_names[0])
