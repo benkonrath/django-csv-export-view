@@ -1,5 +1,4 @@
 from django.db import models
-from six import python_2_unicode_compatible
 
 
 class FieldTest(models.Model):
@@ -15,7 +14,6 @@ class FieldTest(models.Model):
 
 
 # Many-to-one relationships
-@python_2_unicode_compatible
 class Manufacturer(models.Model):
     name = models.CharField(max_length=50)
 
@@ -23,7 +21,6 @@ class Manufacturer(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class Car(models.Model):
     name = models.CharField(max_length=50)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
@@ -33,7 +30,6 @@ class Car(models.Model):
 
 
 # Many-to-many relationships
-@python_2_unicode_compatible
 class Topping(models.Model):
     name = models.CharField(max_length=50)
     code = models.CharField(max_length=1)
@@ -42,7 +38,6 @@ class Topping(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class Pizza(models.Model):
     name = models.CharField(max_length=50)
     toppings = models.ManyToManyField(Topping)
@@ -52,7 +47,6 @@ class Pizza(models.Model):
 
 
 # One-to-one relationships
-@python_2_unicode_compatible
 class Place(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=80)
@@ -61,7 +55,6 @@ class Place(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class Restaurant(models.Model):
     place = models.OneToOneField(Place, on_delete=models.CASCADE, primary_key=True)
     serves_hot_dogs = models.BooleanField(default=False)

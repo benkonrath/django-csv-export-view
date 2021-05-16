@@ -1,19 +1,11 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
+import csv
 import types
 
-import six
 from django.core.exceptions import FieldDoesNotExist, ImproperlyConfigured
 from django.http.response import HttpResponse
-from django.utils.encoding import force_text
+from django.utils.encoding import force_text, force_str
 from django.views.generic.base import View
 from django.views.generic.list import MultipleObjectMixin
-
-if six.PY3:
-    import csv
-else:
-    import unicodecsv as csv
 
 
 def _get_method_type():
@@ -111,9 +103,9 @@ class CSVExportView(MultipleObjectMixin, View):
 
             value = field.value_from_object(obj)
             if field.many_to_many:
-                return ','.join([six.text_type(ro) for ro in value])
+                return ','.join([force_str(ro) for ro in value])
             elif field.choices:
-                if value is None or six.text_type(value).strip() == '':
+                if value is None or force_str(value).strip() == '':
                     return ''
                 return dict(field.choices)[value]
             return field.value_from_object(obj)

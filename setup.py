@@ -49,11 +49,9 @@ setup(
     data_files=[('', ['README.md', 'CHANGELOG.md'])],
     zip_safe=False,
     install_requires=[
-        'django>=1.11',
-        'unicodecsv;python_version<"3.0"',
-        'six>=1.14'
+        'django>=2.0',
     ],
-    python_requires='>=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4',
+    python_requires='!=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4',
 
     classifiers=[
         'Development Status :: 5 - Production/Stable',
