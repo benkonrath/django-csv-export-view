@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 import datetime
 
 import pytz
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
+from django.urls import reverse
 from parameterized import parameterized
 
 from csv_export.views import CSVExportView
@@ -13,14 +11,8 @@ from csv_export.views import CSVExportView
 from .admin import CarAdmin
 from .models import Car, FieldTest, Manufacturer, Pizza, Place, Restaurant, Topping
 
-try:
-    from django.urls import reverse
-except ImportError:
-    from django.core.urlresolvers import reverse  # Django < 1.10
-
 
 class CSVExportTests(TestCase):
-
     def test_unicode_field_value(self):
         pizza = Pizza.objects.create(name='Honoré')
         view = CSVExportView(fields='__all__')
@@ -129,7 +121,7 @@ class CSVExportTests(TestCase):
         class OverrideGetContextDataView(CSVExportView):
             fields = '__all__'
 
-            def get_context_data(self):
+            def get_context_data(self, **kwargs):
                 return super(OverrideGetContextDataView, self).get_context_data()
 
         with self.assertRaises(ImproperlyConfigured) as cm:

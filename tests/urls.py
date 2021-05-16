@@ -1,19 +1,19 @@
-from django.conf.urls import url
+from django.urls import path
 
 from .views import (FieldTestAllView, FieldTestView, ManyToManyView, ManyToOneView, OneToOneView,
                     OverrideGetCSVWriterFmtParamsView, OverrideGetFieldsView, OverrideGetFilenameView,
                     OverrideGetQuerysetView, SetFilenameView)
 
 urlpatterns = [
-    url(r'^fields/$', FieldTestView.as_view(), name='fields'),
-    url(r'^fields-all/$', FieldTestAllView.as_view(), name='fields-all'),
-    url(r'^many-to-many/$', ManyToManyView.as_view(), name='many-to-many'),
-    url(r'^many-to-one/$', ManyToOneView.as_view(), name='many-to-one'),
-    url(r'^one-to-one/$', OneToOneView.as_view(), name='one-to-one'),
-    url(r'^override-get-queryset/$', OverrideGetQuerysetView.as_view(), name='override-get-queryset'),
-    url(r'^override-get-fields/$', OverrideGetFieldsView.as_view(), name='override-get-fields'),
-    url(r'^set-filename/$', SetFilenameView.as_view(), name='set-filename'),
-    url(r'^override-get-filename/$', OverrideGetFilenameView.as_view(), name='override-get-filename'),
-    url(r'^override-get-csv-writer-fmtparams/$', OverrideGetCSVWriterFmtParamsView.as_view(),
+    path('fields/', FieldTestView.as_view(), name='fields'),
+    path('fields-all/', FieldTestAllView.as_view(), name='fields-all'),
+    path('many-to-many/', ManyToManyView.as_view(), name='many-to-many'),
+    path('many-to-one/', ManyToOneView.as_view(), name='many-to-one'),
+    path('one-to-one/', OneToOneView.as_view(), name='one-to-one'),
+    path('override-get-queryset/', OverrideGetQuerysetView.as_view(), name='override-get-queryset'),
+    path('override-get-fields/', OverrideGetFieldsView.as_view(), name='override-get-fields'),
+    path('set-filename/', SetFilenameView.as_view(), name='set-filename'),
+    path('override-get-filename/', OverrideGetFilenameView.as_view(), name='override-get-filename'),
+    path('override-get-csv-writer-fmtparams/', OverrideGetCSVWriterFmtParamsView.as_view(),
         name='override-get-csv-writer-fmtparams'),
 ]
