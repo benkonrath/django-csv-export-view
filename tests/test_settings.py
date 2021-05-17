@@ -46,4 +46,13 @@ SILENCED_SYSTEM_CHECKS = ('models.W042',)
 
 # Disable migrations in tests because they don't work with pypy.
 # http://stackoverflow.com/questions/25161425/disable-migrations-when-running-unit-tests-in-django-1-7
-MIGRATION_MODULES = {"csv_export": None}
+class DisableMigrations(object):
+    def __contains__(self, item):
+        return True
+
+    def __getitem__(self, item):
+        return None
+
+
+MIGRATION_MODULES = DisableMigrations()
+
