@@ -1,7 +1,7 @@
 language: python
 sudo: false
 cache: pip
-dist: bionic
+dist: focal
 
 matrix:
   include:
