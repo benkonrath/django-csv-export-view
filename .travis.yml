@@ -6,7 +6,7 @@ dist: focal
 matrix:
   include:
     - python: 3.8
-      env: TOXENV=isort
+      env: TOXENV=pre-commit
 
     - python: 3.5
       env: TOXENV=py35-2.2

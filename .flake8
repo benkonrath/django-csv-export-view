@@ -1,0 +1,7 @@
+[flake8]
+max-line-length = 120
+exclude = .venv,venv
+# https://black.readthedocs.io/en/stable/compatible_configs.html#flake8
+# W503: line break before binary operator (default black formatting)
+# E203: whitespace before ':' (default black formatting)
+ignore = S311, W503, E203
