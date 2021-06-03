@@ -25,7 +25,7 @@ from csv_export.views import CSVExportView
 
 class DataExportView(CSVExportView):
     model = Data
-    fields = ('field1', 'related1', 'property1')
+    fields = ('field', 'related', 'property')
 
     # When using related fields you will likely want to override get_queryset() use select_related() or prefetch_related().
     def get_queryset(self):
@@ -35,7 +35,7 @@ class DataExportView(CSVExportView):
 
 class DataExportView(CSVExportView):
     model = Data
-    fields = ('field1', 'related1__related_field', 'property1')
+    fields = ('field', 'related__field', 'property')
 
 class DataExportView(CSVExportView):
     model = Data
@@ -116,7 +116,7 @@ class DataExportView(CSVExportView):
 Override `get_csv_writer_fmtparams(self)` and return a dictionary of csv write format parameters. Default format
 parameters are: dialect='excel' and quoting=csv.QUOTE_ALL. See all available options in the Python docs:
 
-https://docs.python.org/3.6/library/csv.html#csv.writer
+https://docs.python.org/3.9/library/csv.html#csv.writer
 
 ## Django Admin Integration
 
