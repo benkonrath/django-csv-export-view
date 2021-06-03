@@ -25,7 +25,7 @@ from csv_export.views import CSVExportView
 
 class DataExportView(CSVExportView):
     model = Data
-    fields = ('field', 'related', 'property')
+    fields = ("field", "related", "property")
 
     # When using related fields you will likely want to override get_queryset() use select_related() or prefetch_related().
     def get_queryset(self):
@@ -35,15 +35,15 @@ class DataExportView(CSVExportView):
 
 class DataExportView(CSVExportView):
     model = Data
-    fields = ('field', 'related__field', 'property')
+    fields = ("field", "related__field", "property")
 
 class DataExportView(CSVExportView):
     model = Data
-    fields = '__all__'
+    fields = "__all__"
 
 class DataExportView(CSVExportView):
     model = Data
-    exclude = ('id',)
+    exclude = ("id",)
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -53,14 +53,14 @@ class DataExportView(CSVExportView):
     model = Data
 
     def get_fields(self, queryset):
-        fields = ['username', 'email']
+        fields = ["username", "email"]
         if self.request.user.is_superuser:
-            fields.append('birth_date')
+            fields.append("birth_date")
         return fields
 ```
 
 `fields` / `exclude`: An iterable of field names and properties. You cannot set both `fields` and `exclude`.
-`fields` can also be `'__all__'` to export all fields. Model properties are not included when `'__all__'` is used.
+`fields` can also be `"__all__"` to export all fields. Model properties are not included when `"__all__"` is used.
 Related field can be used with `__`. Override `get_fields(self, queryset)` for custom behaviour not supported by the
 default logic.
 
@@ -74,17 +74,17 @@ from csv_export.views import CSVExportView
 
 class DataExportView(CSVExportView):
     model = Data
-    fields = '__all__'
+    fields = "__all__"
     header = False
     specify_separator = False
-    filename = 'data-export.csv'
+    filename = "data-export.csv"
 
 class DataExportView(CSVExportView):
     model = Data
-    fields = '__all__'
+    fields = "__all__"
 
     def get_filename(self, queryset):
-        return 'data-export-{!s}.csv'.format(timezone.now())
+        return "data-export-{!s}.csv".format(timezone.now())
 ```
 
 `header` - *boolean* - Default: `True`  
@@ -105,16 +105,16 @@ from csv_export.views import CSVExportView
 
 class DataExportView(CSVExportView):
     model = Data
-    fields = '__all__'
+    fields = "__all__"
 
     def get_csv_writer_fmtparams(self):
         fmtparams = super().get_csv_writer_fmtparams()
-        fmtparams['delimiter'] = '|'
+        fmtparams["delimiter"] = "|"
         return fmtparams
 ```
 
 Override `get_csv_writer_fmtparams(self)` and return a dictionary of csv write format parameters. Default format
-parameters are: dialect='excel' and quoting=csv.QUOTE_ALL. See all available options in the Python docs:
+parameters are: dialect="excel" and quoting=csv.QUOTE_ALL. See all available options in the Python docs:
 
 https://docs.python.org/3.9/library/csv.html#csv.writer
 
@@ -127,13 +127,13 @@ from csv_export.views import CSVExportView
 
 @admin.register(Data)
 class DataAdmin(admin.ModelAdmin):
-    actions = ('export_data_csv',)
+    actions = ("export_data_csv",)
 
     def export_data_csv(self, request, queryset):
-        view = CSVExportView(queryset=queryset, fields='__all__')
+        view = CSVExportView(queryset=queryset, fields="__all__")
         return view.get(request)
 
-    export_data_csv.short_description = 'Export CSV for selected Data records'
+    export_data_csv.short_description = "Export CSV for selected Data records"
 ```
 
 ## Contributions
