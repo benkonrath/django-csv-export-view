@@ -34,7 +34,7 @@ class CSVExportView(MultipleObjectMixin, View):
     context_object_name = None
 
     def __init__(self, **kwargs):
-        super(CSVExportView, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
         # Only check if fields / excludes are setup correctly when get_fields is not overridden.
         get_fields_overridden = False
@@ -106,6 +106,9 @@ class CSVExportView(MultipleObjectMixin, View):
                 # field_name is a property.
                 return getattr(obj, field_name)
 
+            if field.many_to_one:
+                return str(getattr(obj, field_name))
+
             value = field.value_from_object(obj)
             if field.many_to_many:
                 return ",".join([force_str(ro) for ro in value])
@@ -113,7 +116,7 @@ class CSVExportView(MultipleObjectMixin, View):
                 if value is None or force_str(value).strip() == "":
                     return ""
                 return dict(field.choices)[value]
-            return field.value_from_object(obj)
+            return value
         else:
             related_field_names = field_name.split("__")
             related_obj = getattr(obj, related_field_names[0])

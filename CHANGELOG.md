@@ -1,10 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+The format of this changelog is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Use Model.__str__() for related fields. In 1.x the primary key was used for related fields.
+
 ### Added
 - Test on Django 3.0, 3.1 & 3.2
 - Test on Python 3.9 (for Django versions with support).

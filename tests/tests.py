@@ -97,7 +97,7 @@ class CSVExportTests(TestCase):
         Car.objects.create(name="i3", manufacturer=bmw)
 
         response = self.client.get(reverse(view_name))
-        self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Id","Name","Manufacturer"\r\n"1","i3","1"')
+        self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Id","Name","Manufacturer"\r\n"1","i3","BMW"')
         self.assertEqual(response["Content-Disposition"], 'attachment; filename="fancy-cars.csv"')
 
     def test_override_get_csv_writer_fmtparams(self):
@@ -115,7 +115,7 @@ class CSVExportTests(TestCase):
         car_admin = CarAdmin(Car, None)
         response = car_admin.export_car_csv(None, Car.objects.all())
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Id","Name","Manufacturer"\r\n"1","i3","1"')
+        self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Id","Name","Manufacturer"\r\n"1","i3","BMW"')
         self.assertEqual(response["Content-Disposition"], 'attachment; filename="cars.csv"')
 
     def test_unicode_csv_data(self):
@@ -187,3 +187,11 @@ class CSVExportTests(TestCase):
         with self.assertRaises(ImproperlyConfigured) as cm:
             CSVExportView(fields="__all__", context_object_name="foo")
         self.assertEqual(cm.exception.args[0], "'CSVExportView' does not support setting context_object_name.")
+
+    def test_related_uses_model_str(self):
+        bmw = Manufacturer.objects.create(name="BMW")
+        Car.objects.create(name="i3", manufacturer=bmw)
+
+        response = self.client.get(reverse("related-uses-model-str"))
+        self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Name","Manufacturer"\r\n"i3","BMW"')
+        self.assertEqual(response["Content-Disposition"], 'attachment; filename="cars.csv"')

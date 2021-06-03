@@ -10,7 +10,7 @@ from .views import (
     OverrideGetFieldsView,
     OverrideGetFilenameView,
     OverrideGetQuerysetView,
-    SetFilenameView,
+    SetFilenameView, RelatedUsesModelStrView,
 )
 
 urlpatterns = [
@@ -28,4 +28,5 @@ urlpatterns = [
         OverrideGetCSVWriterFmtParamsView.as_view(),
         name="override-get-csv-writer-fmtparams",
     ),
+    path("related-uses-model-str/", RelatedUsesModelStrView.as_view(), name="related-uses-model-str"),
 ]

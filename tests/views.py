@@ -20,7 +20,7 @@ class ManyToOneView(CSVExportView):
     def get_header_name(self, model, field_name):
         if field_name == "manufacturer__name":
             return "Manufacturer"
-        return super(ManyToOneView, self).get_header_name(model, field_name)
+        return super().get_header_name(model, field_name)
 
 
 class ManyToManyView(CSVExportView):
@@ -30,7 +30,7 @@ class ManyToManyView(CSVExportView):
     def get_header_name(self, model, field_name):
         if field_name == "toppings__code":
             return "Topping Codes"
-        return super(ManyToManyView, self).get_header_name(model, field_name)
+        return super().get_header_name(model, field_name)
 
 
 class OneToOneView(CSVExportView):
@@ -40,7 +40,7 @@ class OneToOneView(CSVExportView):
 
 class OverrideGetQuerysetView(ManyToOneView):
     def get_queryset(self):
-        queryset = super(OverrideGetQuerysetView, self).get_queryset()
+        queryset = super().get_queryset()
         return queryset.filter(manufacturer__name="Toyota")
 
 
@@ -68,6 +68,14 @@ class OverrideGetFilenameView(CSVExportView):
 
 class OverrideGetCSVWriterFmtParamsView(ManyToOneView):
     def get_csv_writer_fmtparams(self):
-        fmtparams = super(OverrideGetCSVWriterFmtParamsView, self).get_csv_writer_fmtparams()
+        fmtparams = super().get_csv_writer_fmtparams()
         fmtparams["delimiter"] = "|"
         return fmtparams
+
+
+class RelatedUsesModelStrView(CSVExportView):
+    model = Car
+    fields = ("name", "manufacturer")
+
+    def get_queryset(self):
+        return super().get_queryset().select_related("manufacturer")

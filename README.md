@@ -25,7 +25,17 @@ from csv_export.views import CSVExportView
 
 class DataExportView(CSVExportView):
     model = Data
-    fields = ('field1', 'field2__related_field', 'property1')
+    fields = ('field1', 'related1', 'property1')
+
+    # When using related fields you will likely want to override get_queryset() use select_related() or prefetch_related().
+    def get_queryset(self):
+        return super().get_queryset().select_related("related")
+        OR
+        return super().get_queryset().prefetch_related("related")
+
+class DataExportView(CSVExportView):
+    model = Data
+    fields = ('field1', 'related1__related_field', 'property1')
 
 class DataExportView(CSVExportView):
     model = Data
@@ -36,7 +46,7 @@ class DataExportView(CSVExportView):
     exclude = ('id',)
 
     def get_queryset(self):
-        queryset = super(DataExportView, self).get_queryset()
+        queryset = super().get_queryset()
         return queryset.exclude(deleted=True)
 
 class DataExportView(CSVExportView):
@@ -78,13 +88,13 @@ class DataExportView(CSVExportView):
 ```
 
 `header` - *boolean* - Default: `True`  
-Whether or not to include the header in the CSV.
+Whether to include the header in the CSV.
 
 `filename` - *string* - Default: Dasherized version of `verbose_name_plural` from `queryset.model`.  
 Override `get_filename(self, queryset)` if a dynamic filename is required.
 
 `specify_separator` - *boolean* - Default: `True`  
-Whether or not to include `sep=<sepaator>` as the first line of the CSV file. This is useful for generating Microsoft
+Whether to include `sep=<sepaator>` as the first line of the CSV file. This is useful for generating Microsoft
 Excel friendly CSV.
 
 ## CSV Writer Options
@@ -98,7 +108,7 @@ class DataExportView(CSVExportView):
     fields = '__all__'
 
     def get_csv_writer_fmtparams(self):
-        fmtparams = super(DataExportView, self).get_csv_writer_fmtparams()
+        fmtparams = super().get_csv_writer_fmtparams()
         fmtparams['delimiter'] = '|'
         return fmtparams
 ```
