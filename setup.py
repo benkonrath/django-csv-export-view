@@ -18,7 +18,9 @@ def get_long_description():
 
 def get_version():
     version_file = open(path.join("csv_export", "__init__.py"), encoding="utf-8").read()
-    version_match = re.search(r"__version__ = ['\"]([0-9]+\.[0-9]+\.[0-9]+)['\"]", version_file, re.MULTILINE)
+    version_match = re.search(
+        r"__version__ = ['\"]([0-9]+\.[0-9]+\.[0-9]+(\.dev[0-9])?)['\"]", version_file, re.MULTILINE
+    )
     if version_match:
         return version_match.group(1)
     raise RuntimeError("Unable to find version string.")
