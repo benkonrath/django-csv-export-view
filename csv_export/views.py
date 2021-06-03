@@ -139,7 +139,7 @@ class CSVExportView(MultipleObjectMixin, View):
             related_field_names = field_name.split("__")
             field = model._meta.get_field(related_field_names[0])
             if not field.is_relation:
-                raise ImproperlyConfigured(f"{field} is not a relation")
+                raise ImproperlyConfigured("{} is not a relation".format(field))
             return self.get_header_name(field.related_model, "__".join(related_field_names[1:]))
 
     def get_csv_writer_fmtparams(self):
