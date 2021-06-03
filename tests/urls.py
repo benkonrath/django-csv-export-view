@@ -10,7 +10,8 @@ from .views import (
     OverrideGetFieldsView,
     OverrideGetFilenameView,
     OverrideGetQuerysetView,
-    SetFilenameView, RelatedUsesModelStrView,
+    RelatedUsesModelStrView,
+    SetFilenameView,
 )
 
 urlpatterns = [
