@@ -102,7 +102,7 @@ Override `get_filename(self, queryset)` if a dynamic filename is required.
 Whether to include `sep=<sepaator>` as the first line of the CSV file. This is useful for generating Microsoft
 Excel friendly CSV.
 
-`verbose_names` - *boolean* - Default: `True`
+`verbose_names` - *boolean* - Default: `True`  
 Whether to use capitalized verbose column names in the header of the CSV file. If `False`, field names are used
 instead.
 
