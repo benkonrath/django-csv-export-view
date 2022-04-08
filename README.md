@@ -82,6 +82,11 @@ class DataExportView(CSVExportView):
 class DataExportView(CSVExportView):
     model = Data
     fields = "__all__"
+    verbose_names = False
+
+class DataExportView(CSVExportView):
+    model = Data
+    fields = "__all__"
 
     def get_filename(self, queryset):
         return "data-export-{!s}.csv".format(timezone.now())
@@ -96,6 +101,10 @@ Override `get_filename(self, queryset)` if a dynamic filename is required.
 `specify_separator` - *boolean* - Default: `True`  
 Whether to include `sep=<sepaator>` as the first line of the CSV file. This is useful for generating Microsoft
 Excel friendly CSV.
+
+`verbose_names` - *boolean* - Default: `True`
+Whether to use capitalized verbose column names in the header of the CSV file. If `False`, field names are used
+instead.
 
 ## CSV Writer Options
 

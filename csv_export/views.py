@@ -23,6 +23,7 @@ class CSVExportView(MultipleObjectMixin, View):
     fields = None
     exclude = None
     header = True
+    verbose_names = True
     specify_separator = True  # Useful for Excel.
     filename = None
 
@@ -134,7 +135,10 @@ class CSVExportView(MultipleObjectMixin, View):
                 # field_name is a property.
                 return field_name.replace("_", " ").title()
 
-            return force_str(field.verbose_name).title()
+            if self.verbose_names:
+                return force_str(field.verbose_name).title()
+            else:
+                return force_str(field.name)
         else:
             related_field_names = field_name.split("__")
             field = model._meta.get_field(related_field_names[0])
