@@ -40,6 +40,13 @@ class CSVExportTests(TestCase):
         )
         self.assertEqual(response["Content-Disposition"], 'attachment; filename="field-tests.csv"')
 
+    def test_verbose_names(self):
+        response = self.client.get(reverse('verbose-names'))
+        self.assertEqual(
+            response.content.decode().strip(),
+            'sep=,\r\n"id","date","datetime","choice","empty_choice","integer_choice"'
+        )
+
     def test_many_to_one(self):
         bmw = Manufacturer.objects.create(name="BMW")
         Car.objects.create(name="i3", manufacturer=bmw)

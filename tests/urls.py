@@ -3,6 +3,7 @@ from django.urls import path
 from .views import (
     FieldTestAllView,
     FieldTestView,
+    VerboseNamesView,
     ManyToManyView,
     ManyToOneView,
     OneToOneView,
@@ -17,6 +18,7 @@ from .views import (
 urlpatterns = [
     path("fields/", FieldTestView.as_view(), name="fields"),
     path("fields-all/", FieldTestAllView.as_view(), name="fields-all"),
+    path("verbose-names/", VerboseNamesView.as_view(), name="verbose-names"),
     path("many-to-many/", ManyToManyView.as_view(), name="many-to-many"),
     path("many-to-one/", ManyToOneView.as_view(), name="many-to-one"),
     path("one-to-one/", OneToOneView.as_view(), name="one-to-one"),

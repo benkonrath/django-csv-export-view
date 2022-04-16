@@ -13,6 +13,12 @@ class FieldTestAllView(CSVExportView):
     fields = "__all__"
 
 
+class VerboseNamesView(CSVExportView):
+    model = FieldTest
+    fields = '__all__'
+    verbose_names = False
+
+
 class ManyToOneView(CSVExportView):
     model = Car
     fields = ("name", "manufacturer__name")
