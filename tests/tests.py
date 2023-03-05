@@ -1,6 +1,9 @@
 import datetime
 
-import pytz
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:
+    from backports.zoneinfo import ZoneInfo
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 from django.urls import reverse
@@ -20,7 +23,7 @@ class CSVExportTests(TestCase):
 
     def test_fields(self):
         date = datetime.date(2017, 1, 1)
-        datetime_ = pytz.timezone("Europe/Amsterdam").localize(datetime.datetime(2017, 1, 1, 10, 0), is_dst=None)
+        datetime_ = datetime.datetime(2017, 1, 1, 10, 0, tzinfo=ZoneInfo("Europe/Amsterdam"))
         FieldTest.objects.create(date=date, datetime=datetime_)
 
         response = self.client.get(reverse("fields"))
@@ -41,10 +44,10 @@ class CSVExportTests(TestCase):
         self.assertEqual(response["Content-Disposition"], 'attachment; filename="field-tests.csv"')
 
     def test_verbose_names(self):
-        response = self.client.get(reverse('verbose-names'))
+        response = self.client.get(reverse("verbose-names"))
         self.assertEqual(
             response.content.decode().strip(),
-            'sep=,\r\n"id","date","datetime","choice","empty_choice","integer_choice"'
+            'sep=,\r\n"id","date","datetime","choice","empty_choice","integer_choice"',
         )
 
     def test_many_to_one(self):

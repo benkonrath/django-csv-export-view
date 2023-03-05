@@ -3,7 +3,6 @@ from django.urls import path
 from .views import (
     FieldTestAllView,
     FieldTestView,
-    VerboseNamesView,
     ManyToManyView,
     ManyToOneView,
     OneToOneView,
@@ -13,6 +12,7 @@ from .views import (
     OverrideGetQuerysetView,
     RelatedUsesModelStrView,
     SetFilenameView,
+    VerboseNamesView,
 )
 
 urlpatterns = [
