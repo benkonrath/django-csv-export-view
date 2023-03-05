@@ -15,7 +15,7 @@ class FieldTestAllView(CSVExportView):
 
 class VerboseNamesView(CSVExportView):
     model = FieldTest
-    fields = '__all__'
+    fields = "__all__"
     verbose_names = False
 
 
