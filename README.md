@@ -22,9 +22,10 @@ A Django class-based view for CSV export.
 Examples:
 ```python
 from csv_export.views import CSVExportView
+from .models import MyModel
 
 class DataExportView(CSVExportView):
-    model = Data
+    model = MyModel
     fields = ("field", "related", "property")
 
     # When using related fields you will likely want to override get_queryset() use select_related() or prefetch_related().
@@ -34,18 +35,27 @@ class DataExportView(CSVExportView):
         return super().get_queryset().prefetch_related("related")
 ```
 ```python
+from csv_export.views import CSVExportView
+from .models import MyModel
+
 class DataExportView(CSVExportView):
-    model = Data
+    model = MyModel
     fields = ("field", "related__field", "property")
 ```
 ```python
+from csv_export.views import CSVExportView
+from .models import MyModel
+
 class DataExportView(CSVExportView):
-    model = Data
+    model = MyModel
     fields = "__all__"
 ```
 ```python
+from csv_export.views import CSVExportView
+from .models import MyModel
+
 class DataExportView(CSVExportView):
-    model = Data
+    model = MyModel
     exclude = ("id",)
 
     def get_queryset(self):
@@ -53,8 +63,11 @@ class DataExportView(CSVExportView):
         return queryset.exclude(deleted=True)
 ```
 ```python
+from csv_export.views import CSVExportView
+from .models import MyModel
+
 class DataExportView(CSVExportView):
-    model = Data
+    model = MyModel
 
     def get_fields(self, queryset):
         fields = ["username", "email"]
