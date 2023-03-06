@@ -2,7 +2,7 @@
 
 A Django class-based view for CSV export.
 
-[![Build Status](https://travis-ci.org/benkonrath/django-csv-export-view.svg?branch=master)](https://travis-ci.org/benkonrath/django-csv-export-view)
+[![Build Status](https://github.com/benkonrath/django-csv-export-view/actions/workflows/tests/badge.svg)]
 
 ## Features
 
@@ -32,15 +32,18 @@ class DataExportView(CSVExportView):
         return super().get_queryset().select_related("related")
         OR
         return super().get_queryset().prefetch_related("related")
-
+```
+```python
 class DataExportView(CSVExportView):
     model = Data
     fields = ("field", "related__field", "property")
-
+```
+```python
 class DataExportView(CSVExportView):
     model = Data
     fields = "__all__"
-
+```
+```python
 class DataExportView(CSVExportView):
     model = Data
     exclude = ("id",)
@@ -48,7 +51,8 @@ class DataExportView(CSVExportView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.exclude(deleted=True)
-
+```
+```python
 class DataExportView(CSVExportView):
     model = Data
 
@@ -71,21 +75,31 @@ default logic.
 Examples:
 ```python
 from csv_export.views import CSVExportView
+from .models import MyModel
 
 class DataExportView(CSVExportView):
-    model = Data
+    model = MyModel
     fields = "__all__"
     header = False
     specify_separator = False
     filename = "data-export.csv"
+```
+```python
+from csv_export.views import CSVExportView
+from .models import MyModel
 
 class DataExportView(CSVExportView):
-    model = Data
+    model = MyModel
     fields = "__all__"
     verbose_names = False
+```
+```python
+from django.utils import timezone
+from csv_export.views import CSVExportView
+from .models import MyModel
 
 class DataExportView(CSVExportView):
-    model = Data
+    model = MyModel
     fields = "__all__"
 
     def get_filename(self, queryset):
@@ -111,9 +125,10 @@ instead.
 Example:
 ```python
 from csv_export.views import CSVExportView
+from .models import MyModel
 
 class DataExportView(CSVExportView):
-    model = Data
+    model = MyModel
     fields = "__all__"
 
     def get_csv_writer_fmtparams(self):
@@ -133,8 +148,9 @@ Example:
 ```python
 from django.contrib import admin
 from csv_export.views import CSVExportView
+from .models import MyModel
 
-@admin.register(Data)
+@admin.register(MyModel)
 class DataAdmin(admin.ModelAdmin):
     actions = ("export_data_csv",)
 
