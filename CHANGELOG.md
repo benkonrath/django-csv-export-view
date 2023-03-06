@@ -9,12 +9,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Use Model.__str__() for related fields. In 1.x the primary key was used for related fields.
 
 ### Added
-- Test on Django 3.0, 3.1 & 3.2
-- Test on Python 3.9 (for Django versions with support).
+- Test on Django 3.2, 4.0, 4.1 and 4.2.
+- Test on Python 3.9, 3.10 and 3.11 (for Django versions with support).
+- Add `verbose_names` option to control whether to use capitalized verbose column names in the header. The default is
+ `True` which matches the behaviour in 1.x.
 
 ### Removed
-- Drop support for Python 2 and Python 3.4.
-- Drop support for Django 1.11.
+- Drop support for Python 2, 3.4 and 3.5.
+- Drop support for Django 1.11, 2.0, 2.1, 3.0 and 3.1.
+  - Django 3.1 was never supported in an official release, but it was tested in a pre-release version.
 
 ## [1.1.0]
 ### Added
