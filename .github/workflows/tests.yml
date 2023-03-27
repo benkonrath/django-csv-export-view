@@ -55,12 +55,21 @@ jobs:
           ls $RUNNER_TOOL_CACHE/PyPy/
           ls $RUNNER_TOOL_CACHE/PyPy/$PYPY_VERSION/x64/
           ls $RUNNER_TOOL_CACHE/PyPy/$PYPY_VERSION/x64/include
+      - name: Clone coverage.py repository
+        run: |
+          git clone https://github.com/nedbat/coveragepy.git
+          pushd coveragepy
+          git checkout 7.2.2
+          popd
       - name: Install tox
         run: |
           pypy3.9 -m pip install --upgrade pip
-          pypy3.9 -m pip install --upgrade 'tox>=4.0'
+          pushd coveragepy
+          pypy3.9 -m pip install -e .
+          popd
           # https://code.djangoproject.com/ticket/28358
-          pypy3.9 -m pip install --upgrade --no-binary :all: coverage
+          #pypy3.9 -m pip install --upgrade --no-binary :all: coverage
+          pypy3.9 -m pip install --upgrade 'tox>=4.0'
       - name: Run tests
         run: tox run -f pypy39
 
