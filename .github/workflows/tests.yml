@@ -65,7 +65,7 @@ jobs:
         run: |
           pypy3.9 -m pip install --upgrade pip
           pushd coveragepy
-          pypy3.9 -m pip install -e .
+          pypy3.9 -m pip install .
           popd
           # https://code.djangoproject.com/ticket/28358
           #pypy3.9 -m pip install --upgrade --no-binary :all: coverage
