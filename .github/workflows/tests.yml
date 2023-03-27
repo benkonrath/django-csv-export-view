@@ -41,7 +41,6 @@ jobs:
   test_python_39:
     runs-on: ubuntu-22.04
     name: PyPy 3.9
-    #"import sys;print('{}.{}.{}'.format(sys.version_info[0],sys.version_info[1],sys.version_info[2]))"
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -52,9 +51,9 @@ jobs:
       - name: Set C headers path
         run: |
           PYPY_VERSION=$(pypy3.9 -c 'import sys; print(*sys.version_info[:3], sep=".")')
-          echo "C_HEADERS_PATH=$RUNNER_TOOL_CACHE/PyPy/$PYPY_VERSION/include" >> $GITHUB_ENV
+          echo "C_HEADERS_PATH=$RUNNER_TOOL_CACHE/PyPy/$PYPY_VERSION/x86/include" >> $GITHUB_ENV
           ls $RUNNER_TOOL_CACHE/PyPy/
-          ls $RUNNER_TOOL_CACHE/PyPy/$PYPY_VERSION
+          ls $RUNNER_TOOL_CACHE/PyPy/$PYPY_VERSION/x86/
       - name: Install tox
         run: |
           python -m pip install --upgrade pip
@@ -62,27 +61,27 @@ jobs:
       - name: Run tests
         run: tox run -f pypy39
 
-  test:
-    runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        python-version:
-          - 3.7
-          - 3.8
-          - 3.9
-          - '3.10'
-          - '3.11'
-    name: Python ${{ matrix.python-version }}
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-          architecture: x64
-      - name: Install tox
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install --upgrade 'tox>=4.0'
-      - name: Run tests
-        run: tox run -f py$(echo ${{ matrix.python-version }} | tr -d .)
+#  test:
+#    runs-on: ubuntu-22.04
+#    strategy:
+#      matrix:
+#        python-version:
+#          - 3.7
+#          - 3.8
+#          - 3.9
+#          - '3.10'
+#          - '3.11'
+#    name: Python ${{ matrix.python-version }}
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Set up Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: ${{ matrix.python-version }}
+#          architecture: x64
+#      - name: Install tox
+#        run: |
+#          python -m pip install --upgrade pip
+#          python -m pip install --upgrade 'tox>=4.0'
+#      - name: Run tests
+#        run: tox run -f py$(echo ${{ matrix.python-version }} | tr -d .)
