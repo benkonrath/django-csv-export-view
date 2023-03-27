@@ -53,6 +53,7 @@ jobs:
         run: |
           PYPY_VERSION=$(pypy3.9 -c 'import sys; print(*sys.version_info[:3], sep=".")')
           echo "C_HEADERS_PATH=$RUNNER_TOOL_CACHE/PyPy/$PYPY_VERSION/include" >> $GITHUB_ENV
+          ls $RUNNER_TOOL_CACHE/PyPy/
           ls $RUNNER_TOOL_CACHE/PyPy/$PYPY_VERSION
       - name: Install tox
         run: |
