@@ -47,7 +47,7 @@ jobs:
           - 3.9
           - '3.10'
           - '3.11'
-          - 'py3.9'
+          - 'pypy3.9'
     name: Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v3
@@ -61,4 +61,4 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --upgrade 'tox>=4.0'
       - name: Run tests
-        run: tox run -f py$(echo ${{ matrix.python-version }} | tr -d .)
+        run: tox run -f py$(echo ${{ matrix.python-version }} | tail -c 6 | tr -d .)
