@@ -2,7 +2,7 @@
 
 A Django class-based view for CSV export.
 
-![Build Status](https://github.com/benkonrath/django-csv-export-view/actions/workflows/tests.yml/badge.svg)
+[![Tests](https://github.com/benkonrath/django-csv-export-view/actions/workflows/tests.yml/badge.svg)](https://github.com/benkonrath/django-csv-export-view/actions/workflows/tests.yml)
 
 ## Features
 
@@ -17,9 +17,9 @@ A Django class-based view for CSV export.
 
 `pip install django-csv-export-view`
 
-## Quick Start
+## Examples of basic options
 
-Examples:
+Specify a `model` and `fields`. Optionally override `get_queryset()`.
 ```python
 from csv_export.views import CSVExportView
 from .models import MyModel
@@ -31,9 +31,14 @@ class DataExportView(CSVExportView):
     # When using related fields you will likely want to override get_queryset() use select_related() or prefetch_related().
     def get_queryset(self):
         return super().get_queryset().select_related("related")
-        OR
+        # -- OR --
         return super().get_queryset().prefetch_related("related")
+        # -- OR --
+        return queryset.exclude(deleted=True)
+        # etc
 ```
+
+You can also use related fields and properties.
 ```python
 from csv_export.views import CSVExportView
 from .models import MyModel
@@ -42,6 +47,8 @@ class DataExportView(CSVExportView):
     model = MyModel
     fields = ("field", "related__field", "property")
 ```
+
+`__all__` is supported if you want all fields. Model properties are not included with `__all__`.
 ```python
 from csv_export.views import CSVExportView
 from .models import MyModel
@@ -50,6 +57,8 @@ class DataExportView(CSVExportView):
     model = MyModel
     fields = "__all__"
 ```
+
+`exclude` can be used instead of `fields`.
 ```python
 from csv_export.views import CSVExportView
 from .models import MyModel
@@ -57,11 +66,9 @@ from .models import MyModel
 class DataExportView(CSVExportView):
     model = MyModel
     exclude = ("id",)
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.exclude(deleted=True)
 ```
+
+Override `get_fields()` for dynamic control of the fields.
 ```python
 from csv_export.views import CSVExportView
 from .models import MyModel
@@ -76,6 +83,8 @@ class DataExportView(CSVExportView):
         return fields
 ```
 
+## Basic options
+
 `fields` / `exclude`: An iterable of field names and properties. You cannot set both `fields` and `exclude`.
 `fields` can also be `"__all__"` to export all fields. Model properties are not included when `"__all__"` is used.
 Related field can be used with `__`. Override `get_fields(self, queryset)` for custom behaviour not supported by the
@@ -83,9 +92,9 @@ default logic.
 
 `model`: The model to use for the CSV export queryset. Override `get_queryset()` if you need a custom queryset.
 
-## Further Customization
+## Examples of advanced options
 
-Examples:
+`header`, `specify_separator` and `filename` can be use for more customization.
 ```python
 from csv_export.views import CSVExportView
 from .models import MyModel
@@ -97,6 +106,8 @@ class DataExportView(CSVExportView):
     specify_separator = False
     filename = "data-export.csv"
 ```
+
+Using `verbose_names` can be turned off.
 ```python
 from csv_export.views import CSVExportView
 from .models import MyModel
@@ -106,6 +117,8 @@ class DataExportView(CSVExportView):
     fields = "__all__"
     verbose_names = False
 ```
+
+Override `get_filename()` for dynamic control of the filename.
 ```python
 from django.utils import timezone
 from csv_export.views import CSVExportView
@@ -118,6 +131,8 @@ class DataExportView(CSVExportView):
     def get_filename(self, queryset):
         return "data-export-{!s}.csv".format(timezone.now())
 ```
+
+## Advanced options
 
 `header` - *boolean* - Default: `True`  
 Whether to include the header in the CSV.
