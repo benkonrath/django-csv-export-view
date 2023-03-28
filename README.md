@@ -2,7 +2,7 @@
 
 A Django class-based view for CSV export.
 
-![Build Status](https://github.com/benkonrath/django-csv-export-view/actions/workflows/tests.yml/badge.svg)
+[![Tests](https://github.com/benkonrath/django-csv-export-view/actions/workflows/tests.yml/badge.svg)](https://github.com/benkonrath/django-csv-export-view/actions/workflows/tests.yml)
 
 ## Features
 
