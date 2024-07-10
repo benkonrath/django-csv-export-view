@@ -1,9 +1,9 @@
 default_language_version:
-  python: python3.11
+  python: python3.12
 minimum_pre_commit_version: 2.4.0
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.6.0
     hooks:
       - id: check-yaml
       - id: check-json
@@ -15,18 +15,18 @@ repos:
         exclude: .*\.(min\.js|min\.css)$
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
 
   - repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 24.4.2
     hooks:
       - id: black
 
   # Flake8 includes pyflakes, pycodestyle, mccabe, pydocstyle, bandit
   - repo: https://github.com/pycqa/flake8
-    rev: 6.0.0
+    rev: 7.1.0
     hooks:
       - id: flake8
         additional_dependencies: ["flake8-bandit"]
