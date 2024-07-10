@@ -169,7 +169,7 @@ class DataExportView(CSVExportView):
 Override `get_csv_writer_fmtparams(self)` and return a dictionary of csv write format parameters. Default format
 parameters are: dialect="excel" and quoting=csv.QUOTE_ALL. See all available options in the Python docs:
 
-https://docs.python.org/3.9/library/csv.html#csv.writer
+https://docs.python.org/3.11/library/csv.html#csv.writer
 
 ## Django Admin Integration
 
