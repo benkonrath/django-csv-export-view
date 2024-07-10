@@ -28,7 +28,8 @@ class DataExportView(CSVExportView):
     model = MyModel
     fields = ("field", "related", "property")
 
-    # When using related fields you will likely want to override get_queryset() use select_related() or prefetch_related().
+    # When using related fields you will likely want to override get_queryset()
+    # to use select_related(), prefetch_related() or generally filter the results.
     def get_queryset(self):
         return super().get_queryset().select_related("related")
         # -- OR --
