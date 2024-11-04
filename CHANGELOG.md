@@ -5,6 +5,15 @@ The format of this changelog is based on [Keep a Changelog](http://keepachangelo
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Test on Django 5.0 and 5.1.
+- Test on Python 3.12 and 3.13 (for Django versions with support).
+- Testing with Pypy 3.10 on Django < 4.1 (see note about Pypy in 'Removed' section).
+
+### Removed
+- Stop building a universal wheel.
+- Remove testing with Pypy for Django >= 4.1. There is a Pypy bug preventing Django from working:
+  https://code.djangoproject.com/ticket/33889
 
 ## [2.0.0]
 ### Changed
