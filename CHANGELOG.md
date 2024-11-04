@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Testing with Pypy 3.10 on Django < 4.1 (see note about Pypy in 'Removed' section).
 
 ### Removed
+- Stop building a universal wheel.
 - Remove testing with Pypy for Django >= 4.1. There is a Pypy bug preventing Django from working:
   https://code.djangoproject.com/ticket/33889
 
