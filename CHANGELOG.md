@@ -5,18 +5,24 @@ The format of this changelog is based on [Keep a Changelog](http://keepachangelo
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Test on Django 5.0 and 5.1.
+- Test on Python 3.12 and 3.13 (for Django versions with support).
+- Testing with Pypy 3.10 on Django < 4.1 (see note about Pypy in 'Removed' section).
+
+### Removed
+- Remove testing with Pypy for Django >= 4.1. There is a Pypy bug preventing Django from working:
+  https://code.djangoproject.com/ticket/33889
 
 ## [2.0.0]
 ### Changed
 - Use Model.__str__() for related fields. In 1.x the primary key was used for related fields.
 
 ### Added
+- Test on Django 3.2, 4.0, 4.1 and 4.2.
+- Test on Python 3.9, 3.10 and 3.11 (for Django versions with support).
 - Add `verbose_names` option to control whether to use capitalized verbose column names in the header. The default is
  `True` which matches the behaviour in 1.x.
-- Test on Django 3.2, 4.0, 4.1, 4.2, 5.0 and 5.1
-- Test on Python 3.9, 3.10, 3.11, 3.12 and 3.13.
-- Remove tests using Pypy for Django >= 4.1. There is a Pypy bug preventing Django from working:
-  https://code.djangoproject.com/ticket/33889
 
 ### Removed
 - Drop support for Python 2, 3.4 and 3.5.
