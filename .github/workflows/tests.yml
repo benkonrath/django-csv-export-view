@@ -43,9 +43,9 @@ jobs:
     runs-on: ubuntu-22.04
     name: Python 3.7
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: '3.7'
       - name: Install tox
@@ -59,9 +59,9 @@ jobs:
     runs-on: ubuntu-22.04
     name: Python 3.8
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: '3.8'
       - name: Install tox
@@ -75,9 +75,9 @@ jobs:
     runs-on: ubuntu-22.04
     name: Python 3.9
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: '3.9'
       - name: Install tox
@@ -91,9 +91,9 @@ jobs:
     runs-on: ubuntu-22.04
     name: Python 3.10
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: '3.10'
       - name: Install tox
