@@ -4,6 +4,7 @@ try:
     from zoneinfo import ZoneInfo
 except ImportError:
     from backports.zoneinfo import ZoneInfo
+
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 from django.urls import reverse
@@ -12,7 +13,7 @@ from parameterized import parameterized
 from csv_export.views import CSVExportView
 
 from .admin import CarAdmin
-from .models import Car, FieldTest, Manufacturer, Pizza, Place, Restaurant, Topping
+from .models import Car, FieldTest, Manufacturer, Organization, Pizza, Place, Restaurant, Topping
 
 
 class CSVExportTests(TestCase):
@@ -205,3 +206,21 @@ class CSVExportTests(TestCase):
         response = self.client.get(reverse("related-uses-model-str"))
         self.assertEqual(response.content.decode().strip(), 'sep=,\r\n"Name","Manufacturer"\r\n"i3","BMW"')
         self.assertEqual(response["Content-Disposition"], 'attachment; filename="cars.csv"')
+
+    def test_related_null_foreign_key(self):
+        Organization.objects.create(name="Big Corp", owner=None)
+
+        response = self.client.get(reverse("related-null-foreign-key"))
+
+        # Note: The original behaviour for null foreign key is retained in the 2.x releases to keep backwards
+        # compatibility.
+        self.assertEqual(response.content.decode().strip(), '"Name","Owner"\r\n"Big Corp","None"')
+        self.assertEqual(response["Content-Disposition"], 'attachment; filename="organizations.csv"')
+
+    def test_related_null_foreign_key_related(self):
+        Organization.objects.create(name="Big Corp", owner=None)
+
+        response = self.client.get(reverse("related-null-foreign-key-related"))
+
+        self.assertEqual(response.content.decode().strip(), '"Name","Email"\r\n"Big Corp","-"')
+        self.assertEqual(response["Content-Disposition"], 'attachment; filename="organizations.csv"')

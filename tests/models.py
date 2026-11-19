@@ -62,3 +62,20 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.place
+
+
+# Many-to-one relationships: foreign key NULL
+class User(models.Model):
+    name = models.CharField(max_length=50)
+    email = models.EmailField()
+
+    def __str__(self):
+        return f"{self.name} <{self.email}>"
+
+
+class Organization(models.Model):
+    name = models.CharField(max_length=50)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.name

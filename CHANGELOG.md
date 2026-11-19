@@ -5,6 +5,10 @@ The format of this changelog is based on [Keep a Changelog](http://keepachangelo
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Related fields of null foreign keys accessed with the `__` notation are set to `-` instead of a 500 error.
+  - Note: The original value of `None` for null foreign keys is retained to keep backwards compatibility.
+    This will likely change in the next major release.
 
 ## [2.0.1]
 ### Added

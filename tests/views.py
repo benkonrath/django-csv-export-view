@@ -1,6 +1,6 @@
 from csv_export.views import CSVExportView
 
-from .models import Car, FieldTest, Pizza, Place
+from .models import Car, FieldTest, Organization, Pizza, Place
 
 
 class FieldTestView(CSVExportView):
@@ -85,3 +85,21 @@ class RelatedUsesModelStrView(CSVExportView):
 
     def get_queryset(self):
         return super().get_queryset().select_related("manufacturer")
+
+
+class RelatedNullForeignKeyView(CSVExportView):
+    model = Organization
+    fields = ("name", "owner")
+    specify_separator = False
+
+    def get_queryset(self):
+        return super().get_queryset().select_related("owner")
+
+
+class RelatedNullForeignKeyRelatedView(CSVExportView):
+    model = Organization
+    fields = ("name", "owner__email")
+    specify_separator = False
+
+    def get_queryset(self):
+        return super().get_queryset().select_related("owner")

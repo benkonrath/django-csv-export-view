@@ -99,6 +99,9 @@ class CSVExportView(MultipleObjectMixin, View):
             if hasattr(obj, "all") and hasattr(obj, "iterator"):
                 return ",".join([getattr(ro, field_name) for ro in obj.all()])
 
+            if not obj:
+                return "-"
+
             try:
                 field = obj._meta.get_field(field_name)
             except FieldDoesNotExist as e:
