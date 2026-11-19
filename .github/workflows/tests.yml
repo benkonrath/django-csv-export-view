@@ -10,14 +10,16 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v6
+      - name: Set up Python
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13'
+          architecture: x64
       - name: Install tox
         run: |
           python -m pip install --upgrade pip
-          python -m pip install --upgrade tox
+          python -m pip install --upgrade 'tox>=4.0'
       - name: Run pre-commit linting
         run: tox -e pre-commit
 
@@ -25,9 +27,9 @@ jobs:
     runs-on: ubuntu-20.04
     name: Python 3.6
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: 3.6
       - name: Install tox
@@ -38,7 +40,7 @@ jobs:
         run: tox --py 36
 
   test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version:
@@ -55,9 +57,9 @@ jobs:
           - 'pypy3.10'
     name: Python ${{ matrix.python-version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
