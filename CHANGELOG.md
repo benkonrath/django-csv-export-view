@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Note: The original value of `None` for null foreign keys is retained to keep backwards compatibility.
     This will likely change in the next major release.
 
+### Removed
+- Drop support for Python 3.6.
+
 ## [2.0.1]
 ### Added
 - Test on Django 5.0 and 5.1.

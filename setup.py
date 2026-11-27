@@ -51,6 +51,7 @@ setup(
     install_requires=[
         "django>=3.2",
     ],
+    # Python 3.6 could still work, but it's not officially tested and therefore not supported.
     python_requires="!=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, <4",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -60,7 +61,6 @@ setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
